@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>PitchPerfect</title>
+	<script src="vue.js"></script>
+	<link rel="stylesheet" href="style.css">
+	<!-- font -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Doppio+One&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
+	<!-- font -->
+	<!--code for prettifying visual on phone-->
+	<meta content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
+		name="viewport">
+	<!-- pop up -->
+	<style>
+		.popup {
+			position: relative;
+			display: inline-block;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			padding-top: 5px;
+		}
+
+		.popup .popuptext {
+			visibility: hidden;
+			width: 160px;
+			background-color: #555;
+			color: #fff;
+			text-align: center;
+			border-radius: 6px;
+			padding: 8px 0;
+			position: absolute;
+			z-index: 1;
+			bottom: 125%;
+			left: 50%;
+			margin-left: -80px;
+		}
+
+		.popup .popuptext::after {
+			content: "";
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			margin-left: -5px;
+			border-width: 5px;
+			border-style: solid;
+			border-color: #555 transparent transparent transparent;
+		}
+
+		.popup .show {
+			visibility: visible;
+			-webkit-animation: fadeIn 1s;
+			animation: fadeIn 1s;
+		}
+
+		@-webkit-keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="content" align="center">
+		<h1>Sign Up</h1>
+		<form class="modal-content" action="/action_page.php">
+			<input type="text" style="width:230px" placeholder="Nickname" name="nickname" id="nickname" required>
+			<a class="redbutton" onclick="name_check()">verify</a>
+			<input type="number" placeholder="Age" name="age" id="age" required>
+			<textarea id="bio" name="bio" rows="3">Bio (introduce yourself)</textarea>
+			<input type="password" placeholder="Enter Password" name="psw" id="password" required>
+			<input type="password" placeholder="Repeat Password" name="psw-repeat" id="password_check" required>
+			<br><br>
+
+			<label for="img">Select profile image:</label><br>
+			<input type="file" id="img" name="img" accept="image/*"><br>
+			<input type="submit">
+			<br><br>
+			<h3>Instrument 1</h3>
+			<input type="text" id="instrument" placeholder="What instrument do you play?" required>
+			<p>Proficiency of Instrument 1</p>
+			<input type="radio" id="level1" name="proficiency" value="level1">
+			<label for="level1">Level 1</label>
+			<input type="radio" id="level2" name="proficiency" value="level2">
+			<label for="level2">Level 2</label>
+			<input type="radio" id="level3" name="proficiency" value="level3">
+			<label for="level3">Level 3</label>
+
+			<div class="popup" onclick="popup_description()">
+				<br><u>How do I decide my proficiency level?</u>
+				<span class="popuptext" id="description">
+					Mola mola!
+					Mola mola!
+					Mola mola!
+					Mola mola!
+					Mola mola!Mola mola!
+					Mola mola!Mola mola!Mola mola!
+					Mola mola!Mola mola!
+					Mola mola!Help!Help!Help!
+					Ewook
+					Lolchess go?
+					go
+
+				</span>
+			</div>
+
+			<br>
+			<button class="redbutton" style="width:300px">Click to add instruments</button>
+
+			<br><br>
+
+			<h3>Tags that describe your musical preferences</h3>
+			<input type="text" style="width:230px" placeholder="ex. prefers easy violin pieces" name="tag1" id="tag1"
+				required>
+			<input type="text" style="width:230px" placeholder="ex. prefers easy violin pieces" name="tag2" id="tag2"
+				required>
+			<input type="text" style="width:230px" placeholder="ex. prefers easy violin pieces" name="tag3" id="tag3"
+				required>
+			<button class="redbutton" style="width:300px">Click to add more tags</button>
+			<br><br><br>
+			<button class="button" onclick="check_password()"
+				style="color:white; background-color:#F2C94C">Submit</button>
+		</form>
+
+		<button class="backbutton" onclick="location.href = '/main.html'">Back</button>
+	</div>
+
+	<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+
+	<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+	<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-analytics.js"></script>
+
+	<!-- Add Firebase products that you want to use -->
+	<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-firestore.js"></script>
+
+	<script>
+		// Your web app's Firebase configuration
+		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+		var firebaseConfig = {
+			apiKey: "AIzaSyD77qeEEgwUNEAj6XDaOLZGM8YJh29q2PA",
+			authDomain: "fyeesh.firebaseapp.com",
+			databaseURL: "https://fyeesh.firebaseio.com",
+			projectId: "fyeesh",
+			storageBucket: "fyeesh.appspot.com",
+			messagingSenderId: "167708075968",
+			appId: "1:167708075968:web:7b487c33ee10ec616fca25",
+			measurementId: "G-LGEWZSYSGG"
+		};
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+		firebase.analytics();
+	</script>
+
+	<script>
+		function name_check() {
+			var userName = document.getElementById("nickname").value;
+			const usersRef = firebase.firestore().collection("userinfo").doc(userName)
+			usersRef.get()
+				.then((docSnapshot) => {
+					if (docSnapshot.exists) {
+						window.alert("Username Already Exists!");
+					}
+					else {
+						window.alert("Valid Username");
+					}
+				});
+		}
+
+		function check_password() {
+			var password = document.getElementById("password").value;
+			var password_check = document.getElementById("password_check").value;
+			if (password != password_check) {
+				window.alert("Passwords are different!");
+			} else {
+				login();
+			}
+		}
+
+		function login() {
+
+			var userName = document.getElementById("nickname").value;
+			var userPass = document.getElementById("password").value;
+			var userAge = document.getElementById("age").value
+			var instrument = document.getElementById("instrument").value;
+			var level;
+			if (document.getElementById("level1").checked) {
+				level = document.getElementById("level1").value;
+			} else if (document.getElementById("level2").checked) {
+				level = document.getElementById("level2").value;
+			} else if (document.getElementById("level3").checked) {
+				level = document.getElementById("level3").value;
+			}
+
+			var tag1 = document.getElementById("tag1").value;
+			var tag2 = document.getElementById("tag2").value;
+			var tag3 = document.getElementById("tag3").value;
+
+			var userinfo = firebase.firestore().collection("userinfo");
+			userinfo
+				.doc(userName)
+				.set({
+					name: userName,
+					password: userPass,
+					age: userAge,
+					instrument: instrument,
+					level: level,
+					tag1: tag1,
+					tag2: tag2,
+					tag3: tag3
+				})
+				.then(function () {
+					console.log("saved!");
+				})
+				.catch(function (error) {
+					console.error("Error yee : ", error);
+				});
+
+		}
+	</script>
+
+
+	<script>
+		function popup_description() {
+			var popup = document.getElementById("description");
+			popup.classList.toggle("show");
+		}
+	</script>
+
+</body>
+
+</html>

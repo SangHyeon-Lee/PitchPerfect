@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>PitchPerfect</title>
+        <script src="vue.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <!-- font -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Doppio+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
+        <!-- font -->
+        <!--code for prettifying visual on phone-->
+        <meta content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" name="viewport">
+        <style>
+            h3 {
+                font-size: 1.1em;
+                margin-left: 15px;
+                color: black;
+            }
+            h4 {
+                margin-left: 15px;
+                color: lightseagreen;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content_project" padding-top="5px" align="center">
+            <h2>Announcements</h2> <br>
+            <div class="wrapper" style="display: inline-block; color: black; text-align: left; text-decoration: black">
+                <div class="projects" id="prog_proj">
+			        <ul>
+				        <li v-for="project in projects">
+					        {{ project }}
+				        </li>
+				        <span v-if="projects.length === 0">
+					    &lt;empty&gt;
+				        </span>
+			        </ul>
+		        </div>
+            </div>
+            <br><br><br><br>
+            <button style="height:40px;width:100px;text-align: center" class="mini_button" onclick = "location.href = 'project_main.html'">Back</button>
+        </div>
+
+        <script>
+            var prog_proj = new Vue({
+              el: '#prog_proj',
+              data: {
+                projects: [
+                    "sssssssssiiiiiiibbbbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaallllllllllllll",
+                    "Autumn Leaves",
+                    "Party in the USA",
+                    "National Anthem"
+                ]
+              }
+            })
+            var prev_proj = new Vue({
+              el: '#prev_proj',
+              data: {
+                projects: [
+                ]
+              }
+            })
+	    </script>
+    </body>
+</html>

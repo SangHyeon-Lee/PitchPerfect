@@ -1,7 +1,5 @@
 module.exports = {
   lintOnSave: false,
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/PitchPerfect/'
-    : '/',
-  outputDir: 'docs'
+  publicPath: process.env.NODE_ENV === "production" ? "/PitchPerfect/" : "/",
+  outputDir: "docs"
 };

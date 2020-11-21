@@ -1,14 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Main from "../views/Main.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "Main",
+    component: Main
   },
   {
     path: "/about",
@@ -18,6 +18,30 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
+  },
+  {
+    path: "/signin",
+    name: "signin",
+    component: () =>
+      import(/* webpackChunkName: "signin" */ "../views/Signin.vue")
+  },
+  {
+    path: "/library",
+    name: "library",
+    component: () =>
+      import(/* webpackChunkName: "library" */ "../views/Library.vue")
+  },
+  {
+    path: "/table",
+    name: "table",
+    component: () =>
+      import(/* webpackChunkName: "table" */ "../views/Table.vue")
+  },
+  {
+    path: "/signup",
+    name: "signup",
+    component: () =>
+      import(/* webpackChunkName: "table" */ "../views/Signup.vue")
   }
 ];
 
