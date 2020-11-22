@@ -1,10 +1,9 @@
 <template>
-  <html>
+  <html lang="en">
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
       <title>PitchPerfect</title>
-      <base href="/" />
-      <link rel="stylesheet" type="css/text" href="style.css" />
+      <link rel="stylesheet" href="style.css" />
       <!-- font -->
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
@@ -22,24 +21,25 @@
         name="viewport"
       />
     </head>
-
     <body>
-      <div id="app">
-        <div class="content" align="center" style="min-height:700px">
-          <br /><br /><br /><br /><br />
-          <img src="images/logo.png" alt="Logo" width="350" />
-          <h1>Welcome !</h1>
-          <br /><br /><br /><br /><br /><br />
-          <!-- <a class="largebutton" href="/signin.html">Sign in</a> -->
-          <router-link class="largebutton" to="/signin" tag="button"
-            >Sign in</router-link
-          >
-          <p>
-            If you don't have an account,
-            <router-link to="/signup">Sign up</router-link>
-          </p>
-          <br /><br /><br /><br /><br />
+      <div class="content_project" padding-top="5px" align="center">
+        <h2>Announcements</h2>
+        <br />
+        <div
+          class="wrapper"
+          style="display: inline-block; color: black; text-align: left; text-decoration: black"
+        >
+          <div class="projects" id="prog_proj"></div>
         </div>
+        <br /><br /><br /><br />
+        <router-link
+          class="button"
+          style="height:40px;width:100px;text-align: center"
+          to="/project_main"
+          tag="button"
+          >Back</router-link
+        >
+        <!-- <button style="height:40px;width:100px;text-align: center" class="mini_button" onclick = "location.href = 'project_main.html'">Back</button> -->
       </div>
     </body>
   </html>

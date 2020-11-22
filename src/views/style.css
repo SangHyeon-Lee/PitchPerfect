@@ -1,5 +1,4 @@
-
-  body {
+body {
   background-color: white;
   width: 500px;
   margin: auto;
@@ -14,7 +13,7 @@
 
 .content {
   align-content: center;
-  min-height: 700px;
+  min-height: 1000px;
   padding-top: 50px;
   background-color: #E68585;
   padding-bottom: 50px;
@@ -129,6 +128,23 @@
   font-weight: 600;
 }
 
+.backbutton {
+  background-color: white;
+  border: none;
+  color: #EB5757;
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
 .tag {
   background-color: #FFB19D;
   border: none;
@@ -220,11 +236,7 @@
   color: golden;
 }
 
-.projects {
-  font-size: 20px;
-}
-
-.projects ul li {
+.projects li {
   list-style: none;
   text-decoration: none;
   padding: 5px;
@@ -237,6 +249,7 @@
   width: 400px;
   border-radius: 20px;
   text-align: left;
+  margin-bottom: 10px;
 }
 
 .members_container {
@@ -295,10 +308,18 @@ input[type=text]:focus, input[type=password]:focus {
   padding:0px;
 }
 
-.projects ul li {
+.projects li {
   list-style: none;
   text-decoration: none;
-  padding: 5px;
+  padding: 10px;
+  margin-right: 20%;
+}
+
+.project_text {
+  color: black;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
 }
 
 /*ratings */
@@ -425,6 +446,7 @@ h1 {
   font-family: 'Doppio One', sans-serif;
   font-size: 50px;
   font-weight: normal;
+  color: white;
 }
 
 h2 {
@@ -442,7 +464,9 @@ h3 {
 }
 
 p {
+  font-family: 'Inter', sans-serif;
   font-weight: 300;
+  font-size: 15px
 }
 
 a {
