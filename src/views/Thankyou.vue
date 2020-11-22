@@ -1,59 +1,50 @@
 <template>
   <html lang="en">
-    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>PitchPerfect</title>
-      <link rel="stylesheet" href="style.css" />
-      <!-- font -->
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Doppio+One&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap"
-        rel="stylesheet"
-      />
-      <!-- font -->
-      <!--code for prettifying visual on phone-->
-      <meta
-        content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
-        name="viewport"
-      />
-    </head>
     <body>
       <div class="content_project" padding-top="50px" align="center">
         <br /><br /><br /><br /><br /><br />
         <h2>Thank you!</h2>
         <h3>Team FYEESH</h3>
         <br /><br />
-        <button
-          style="height:60px;width:150px"
-          class="button"
-          onclick="location.href = '/library.html'"
-        >
-          Home
-        </button>
+        <form @submit.prevent="send">
+          <router-link
+            style="height: 60px; width: 150px"
+            class="button"
+            v-on:click.native="send"
+            :to="{
+              path: '/library',
+              query: {
+                userId: $route.query.userId,
+                projName: $route.query.projName,
+              },
+            }"
+            tag="button"
+          >
+            Home
+          </router-link>
+        </form>
       </div>
 
       <nav id="tabbar">
         <ul id="tab_wrap">
           <li>
             <a href="/library.html"
-              ><img src="images/home.png" width="100px"
+              ><img src="../assets/images/home.png" width="100px"
             /></a>
           </li>
           <li>
             <a href="/search.html"
-              ><img src="images/search.png" width="100px"
+              ><img src="../assets/images/search.png" width="100px"
             /></a>
           </li>
           <li>
-            <a href="/add.html"><img src="images/add.png" width="100px"/></a>
+            <a href="/add.html"
+              ><img src="../assets/images/add.png" width="100px"
+            /></a>
           </li>
           <li>
             <a href="/profile.html"
-              ><img src="images/profile.png" width="100px"
+              ><img src="../assets/images/profile.png" width="100px"
             /></a>
           </li>
         </ul>
@@ -63,16 +54,80 @@
 </template>
 
 <script>
-// var members = new Vue({
-//     el: '#members',
-//     data: {
-//     projects: [
-//         "Chamchi",
-//         "Sanghigh",
-//         "Yewon",
-//         "Sujin"
-//     ]
-//     },
-//     color: 'black'
-// })
+import { firestore } from "@/firebase";
+import { firestorage } from "@/firebase";
+var project_collection = firebase.firestore().collection("projects");
+var userinfo_collection = firebase.firestore().collection("userinfo");
+
+export default {
+  data() {
+    return {
+      projInfo: {
+        team: "",
+        song: "",
+        parts: "",
+        level: "",
+        blurb: "",
+        members: [],
+        ongoing: false,
+      },
+      userinfo: {
+        name: "",
+        image_url: "",
+        best_num: 0,
+      },
+      members_url: [],
+    };
+  },
+  created() {
+    var projectName = this.$route.query.projName;
+    console.log("hihihi");
+    project_collection
+      .doc(projectName)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          let pi = doc.data();
+          this.projInfo = pi;
+          var i;
+          for (i = 0; i < this.projInfo.members.length; i++) {
+            userinfo_collection
+              .doc(this.projInfo.members[i])
+              .get()
+              .then((doc_user) => {
+                if (doc_user.exists) {
+                  let user = doc_user.data();
+                  this.userinfo = user;
+                  this.members_url.push([
+                    this.userinfo.name,
+                    this.userinfo.image_url,
+                    this.userinfo.best_num,
+                  ]);
+                }
+              });
+          }
+        } else {
+          window.alert("ERROR: No such project exist!");
+        }
+      })
+      .catch(function (error) {
+        console.log("Error retrieving project info: ", error);
+      });
+  },
+  methods: {
+    send() {
+      console.log("byebyebye");
+      var userID = this.$route.query.userId;
+      var projName = this.$route.query.projName;
+      project_collection
+        .doc(projName)
+        .update({
+          ongoing: false,
+        })
+        .catch(function (error) {
+          console.error("Error yee : ", error);
+        });
+    },
+  },
+};
 </script>

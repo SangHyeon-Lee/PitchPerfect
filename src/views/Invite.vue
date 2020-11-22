@@ -1,32 +1,5 @@
 <template>
   <html lang="en">
-    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>PitchPerfect</title>
-      <link rel="stylesheet" href="style.css" />
-      <!-- font -->
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Doppio+One&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap"
-        rel="stylesheet"
-      />
-      <!-- font -->
-      <!--code for prettifying visual on phone-->
-      <meta
-        content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
-        name="viewport"
-      />
-
-      <!--code for prettifying visual on phone-->
-      <meta
-        content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
-        name="viewport"
-      />
-    </head>
     <body>
       <div class="content_project" padding-top="5px" align="center">
         <h2>Invite</h2>
@@ -51,10 +24,10 @@
           </button>
         </div>
         <br /><br /><br /><br />
-        <router-link
-          class="button"
+          <router-link
+          class="mini_button"
           style="height:40px;width:100px;text-align: center"
-          to="/project_main"
+          :to="{ path: '/project_main', query: { userId: $route.query.userId, projName: $route.query.projName } }"
           tag="button"
           >Back</router-link
         >

@@ -36,23 +36,8 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import "firebase/firestore";
 
-// import router from '../router/index'
-
-var firebaseConfig = {
-  apiKey: "AIzaSyD77qeEEgwUNEAj6XDaOLZGM8YJh29q2PA",
-  authDomain: "fyeesh.firebaseapp.com",
-  databaseURL: "https://fyeesh.firebaseio.com",
-  projectId: "fyeesh",
-  storageBucket: "fyeesh.appspot.com",
-  messagingSenderId: "167708075968",
-  appId: "1:167708075968:web:7b487c33ee10ec616fca25",
-  measurementId: "G-LGEWZSYSGG"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+import {firestore} from '@/firebase';
 
 export default {
   // name : 'signUp',
@@ -66,8 +51,8 @@ export default {
   },
   methods: {
     signin() {
-      var usersRef = firebase
-        .firestore()
+      var usersRef = 
+         firestore
         .collection("userinfo")
         .doc(this.userData.nickname);
       var usernickname = this.userData.nickname;

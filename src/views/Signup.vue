@@ -1,28 +1,5 @@
 <template>
   <html>
-    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>PitchPerfect</title>
-      <link rel="stylesheet" href="style.css" />
-      <!-- font -->
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Doppio+One&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap"
-        rel="stylesheet"
-      />
-      <!-- font -->
-      <!--code for prettifying visual on phone-->
-      <meta
-        content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
-        name="viewport"
-      />
-      <!-- pop up -->
-    </head>
-
     <body>
       <div class="content" align="center">
         <h1>Sign Up</h1>
@@ -69,9 +46,8 @@
           <br /><br />
           <h3>Upload Profile Image</h3>
 
-          <img v-if="!upload" src="images/profile.png" width="100px" />
-          <img v-if="upload" :src="userData.image_url" width="100px" />
-          <br /><br />
+          <br />
+          <label for="files"> Upload Image </label>
           <input
             id="files"
             type="file"
@@ -79,6 +55,7 @@
             ref="uploadInput"
             accept="image/*"
             :multiple="false"
+            hidden
             @change="imageUpload($event)"
           />
 
@@ -112,17 +89,23 @@
             value="level3"
           />
           <label for="level3">Level 3</label>
+          <br /><br />
+          <button class="copy_button" @click="handle_toggle" type="button">
+            How do I decide my proficiency level?
+          </button>
 
-          <div class="popup" @click="popup_description">
-            <br /><u>How do I decide my proficiency level?</u>
-            <span class="popuptext" id="description">
-              Mola mola! Mola mola! Mola mola! Mola mola! Mola mola!Mola mola!
-              Mola mola!Mola mola!Mola mola! Mola mola!Mola mola! Mola
-              mola!Help!Help!Help! SIBAL Ewook Lolchess go? go
-            </span>
+          <!-- #2 : Modal Window -->
+          <div v-show="is_show">
+            <p>
+              Level1: Just started learning the instrument
+              <br />
+              Level2: Learned instrument for at least 6 months
+              <br />
+              Level3: Learned instrument for at least 2 years
+            </p>
           </div>
 
-          <br />
+          <br /><br />
           <button class="redbutton" style="width: 300px">
             Click to add instruments
           </button>
@@ -171,25 +154,13 @@
 </template>
 
 <script>
-import firebase from "firebase";
-// import router from "../router/index";
-import "firebase/firestore";
-var firebaseConfig = {
-  apiKey: "AIzaSyD77qeEEgwUNEAj6XDaOLZGM8YJh29q2PA",
-  authDomain: "fyeesh.firebaseapp.com",
-  databaseURL: "https://fyeesh.firebaseio.com",
-  projectId: "fyeesh",
-  storageBucket: "fyeesh.appspot.com",
-  messagingSenderId: "167708075968",
-  appId: "1:167708075968:web:7b487c33ee10ec616fca25",
-  measurementId: "G-LGEWZSYSGG"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-var firestorage = firebase.storage();
+import { firestore } from "@/firebase";
+import { firestorage } from "@/firebase";
 
 export default {
   // name : 'signUp',
+
+  template: "#modal-template",
   data() {
     return {
       userData: {
@@ -197,25 +168,26 @@ export default {
         age: "",
         password: "",
         password_check: "",
+
         bio: "",
-        image_url: "",
         instrument: "",
         level: "",
         tag1: "",
         tag2: "",
-        tag3: ""
+        tag3: "",
       },
-      upload: false
+      image_url: "images/fyeesh.png",
+      is_show: false,
     };
   },
   methods: {
-    name_check: function() {
+    name_check: function () {
       var userName = this.userData.nickname;
       const usersRef = firebase
         .firestore()
         .collection("userinfo")
         .doc(userName);
-      usersRef.get().then(docSnapshot => {
+      usersRef.get().then((docSnapshot) => {
         if (docSnapshot.exists) {
           window.alert("Username Already Exists!");
         } else {
@@ -223,45 +195,56 @@ export default {
         }
       });
     },
-    login: function() {
+    handle_toggle: function () {
+      this.is_show = !this.is_show; // #2, #3
+    },
+    login: function () {
       var userName = this.userData.nickname;
       var userPass = this.userData.password;
       var userAge = this.userData.age;
       var instrument = this.userData.instrument;
       var bio = this.userData.bio;
-      console.log(bio);
       var tag1 = this.userData.tag1;
       var tag2 = this.userData.tag2;
       var tag3 = this.userData.tag3;
-
       var userinfo = firebase.firestore().collection("userinfo");
-      userinfo
-        .doc(userName)
-        .set({
-          name: userName,
-          password: userPass,
-          age: userAge,
-          instrument: instrument,
-          bio: bio,
-          level: this.userData.level,
-          tag1: tag1,
-          tag2: tag2,
-          tag3: tag3
-        })
-        .then(() => {
-          window.alert("saved!");
-          this.$router.push({
-            path: "/library",
-            query: { userId: userName },
-            params: { username: userPass }
-          });
-        })
-        .catch(function(error) {
-          console.error("Error yee : ", error);
+      firestorage
+        .ref(this.image_url)
+        .getDownloadURL()
+        .then((url) => {
+          userinfo
+            .doc(userName)
+            .set({
+              name: userName,
+              password: userPass,
+              age: userAge,
+              instrument: instrument,
+              bio: bio,
+              projs: [],
+              image_url: url,
+              level: this.userData.level,
+              tag1: tag1,
+              tag2: tag2,
+              tag3: tag3,
+              report: [],
+              best_num: 0,
+            })
+            .then(() => {
+              window.alert("saved!");
+              this.$router.push({
+                path: "/library",
+                query: { userId: userName },
+                params: { username: userPass },
+              });
+            })
+            .catch(function (error) {
+              console.error("Error yee : ", error);
+            });
         });
+
       console.log("submitted!");
     },
-    check_password: function() {
+    check_password: function () {
       var password = this.userData.password;
       var password_check = this.userData.password_check;
       if (password != password_check) {
@@ -272,28 +255,22 @@ export default {
       }
     },
     upload_file(file) {
-      firestorage
-        .ref("images/" + file.name)
-        .put(file)
-        .then(function(snapshot) {
-          snapshot.ref.getDownloadURL().then(downloadURL => {
-            this.userData.image_url = downloadURL;
-            this.upload = true;
-          });
-        });
+      firestorage.ref("images/" + file.name).put(file);
+      this.image_url = "images/" + file.name;
+
+      console.log(this.image_url);
     },
     imageUpload(e) {
       console.log(this.$refs.uploadInput);
       var filelist = e.target.files || e.dataTransfer.files;
-      Array.from(Array(filelist.length).keys()).map(x => {
+      Array.from(Array(filelist.length).keys()).map((x) => {
         this.upload_file(filelist[x]);
       });
-    }
-  }
+    },
+    // popup_description() {
+    // 	var popup = document.getElementById("description");
+    // 	popup.classList.toggle("show");
+    // }
+  },
 };
-
-// // function popup_description() {
-// //   var popup = document.getElementById("description");
-// //   popup.classList.toggle("show");
-// // }
 </script>

@@ -1,125 +1,103 @@
 <template>
   <html>
-    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>PitchPerfect</title>
-      <!-- font -->
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Doppio+One&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap"
-        rel="stylesheet"
-      />
-      <!-- font -->
-      <!--code for prettifying visual on phone-->
-      <meta
-        content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
-        name="viewport"
-      />
-    </head>
     <body>
       <div class="content_project" padding-top="5px" align="center">
         <h2>Music Term Dictionary</h2>
         <br />
-        <div
-          class="wrapper"
-          style="
-            width: 365px;
-            height: 60px;
-            display: inline-block;
-            color: black;
-            text-align: left;
-          "
-        >
-          <form @submit.prevent="find">
+        <div class="wrapper" style="color: black; text-align: left">
+          <form @submit.prevent="find" style="width: 360px; padding: 0px">
             <input
               type="text"
-              v-model="search"
+              v-model="dic_info.search"
               placeholder="Search for music terms.."
               style="width: 250px"
             />
-            <button type="submit" class="redbutton" @click.stop="find">
-              Search
-            </button>
+            <button type="submit" class="redbutton">Search</button>
           </form>
-          <div
-            class="wrapper"
-            style="
-            width: 365px;
-            display: inline-block;
-            color: black;
-            text-align: left;
-          "
-          >
-            <ul>
-              <li v-for="entry in found" :key="entry.term">
+          <ul>
+            <li v-for="entry in dic_info.found" :key="entry.term">
+              <div v-if="entry.abb != null">
+                {{ entry.term + "(" + entry.abb + ")" + ": " + entry.meaning }}
+              </div>
+              <div v-else>
                 {{ entry.term + ": " + entry.meaning }}
-              </li>
-            </ul>
-          </div>
+              </div>
+            </li>
+          </ul>
         </div>
-        <br /><br /><br /><br />
+        <br /><br />
         <router-link
+          class="button"
           style="height: 40px; width: 100px; text-align: center"
-          class="mini_button"
-          to="/project_main"
+          :to="{
+            path: '/sheetmusic',
+            query: {
+              userId: $route.query.userId,
+              projName: $route.query.projName,
+            },
+          }"
           tag="button"
+          >Back</router-link
         >
-          Back
-        </router-link>
       </div>
     </body>
   </html>
 </template>
 
 <script>
-import firebase from "firebase";
-
-// var dict = firebase.firestore().collection("dictionary");
-// var project = firebase.firestore().collection("projects").doc("fyeesh");
-
+import { firestore } from "@/firebase";
+import { firestorage } from "@/firebase";
+var dict = [];
 export default {
-  // name: "Music Dictionary",
   data() {
     return {
-      search: "",
-      // dictionary: [],
-      found: []
+      dic_info: {
+        search: "",
+        found: [],
+      },
     };
   },
   // created() {
-  //   dict.get().then((snapshot) => {
-  //     snapshot.forEach((doc) => {
-  //       let project_dict = doc.data();
-  //       this.dictionary.push(project_dict);
+  //   var dict_search = firebase.firestore().collection("dictionary");
+  //   dict_search
+  //     .get()
+  //     .then(function (querySnapshot) {
+  //       querySnapshot.forEach(function (doc) {
+  //         // doc.data() is never undefined for query doc snapshots
+  //         console.log(doc.id, " => ", doc.data().term);
+
+  //         dict.push(doc.data());
+  //       });
+  //     })
+  //     .catch(function (error) {
+  //       console.log("Error getting documents: ", error);
   //     });
-  //   });
   // },
   methods: {
     find() {
-      var dict_search = firebase
-        .firestore()
-        .collection("dictionary")
-        .doc(this.search);
-      // var search_term = this.search;
+      dict = []
+      var search = this.dic_info.search;
+      var dict_search = firebase.firestore().collection("dictionary");
       dict_search
         .get()
-        .then(doc => {
-          if (doc.exists) {
-            // project.data()["terms"].push(doc.data());
-            // display.push(doc.data())
-            this.found.push(doc.data());
-          } else {
-            window.alert("given term does not exist in our dictionary :(");
-          }
+        .then((querySnapshot) =>{
+          querySnapshot.forEach(function (doc) {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data().term);
+            var term = doc.data().term;
+            var meaning = doc.data().meaning;
+            var abb = doc.data().abb;
+
+            if (term.includes(search) || meaning.includes(search) || (abb != null &&abb.includes(search))) {
+              dict.push(doc.data());
+            }
+          });
+          this.dic_info.found = dict;
         })
-        .catch(function(error) {
-          console.log("Error getting dictionary entry:", error);
+        .catch(function (error) {
+          console.log("Error getting documents: ", error);
         });
-    }
-  }
+    },
+  },
 };
 </script>

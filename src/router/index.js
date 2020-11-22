@@ -20,15 +20,6 @@ const routes = [
     component: Main
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  },
-  {
     path: "/signin",
     name: "signin",
     component: () =>
@@ -93,10 +84,10 @@ const routes = [
       import(/* webpackChunkName: "rating" */ "../views/Rating.vue")
   },
   {
-    path: "/announcement",
-    name: "announcement",
+    path: "/all_threads",
+    name: "all_threads",
     component: () =>
-      import(/* webpackChunkName: "announcement" */ "../views/Announcement.vue")
+      import(/* webpackChunkName: "announcement" */ "../views/All_threads.vue")
   },
   {
     path: "/endcollaboration",
@@ -111,14 +102,6 @@ const routes = [
     name: "report",
     component: () =>
       import(/* webpackChunkName: "report" */ "../views/Report.vue")
-  },
-  {
-    path: "/sheetmusic_announcements",
-    name: "sheetmusic_announcements",
-    component: () =>
-      import(
-        /* webpackChunkName: "sheetmusic_announcements" */ "../views/Sheetmusic_announcements.vue"
-      )
   },
   {
     path: "/sheetmusic",
@@ -145,10 +128,22 @@ const routes = [
       import(/* webpackChunkName: "view_logs" */ "../views/View_logs.vue")
   },
   {
+    path: "/annotate",
+    name: "annotate",
+    component: () =>
+      import(/* webpackChunkName: "annotate" */ "../views/Annotate.vue")
+  },
+  {
     path: "/waitlist",
     name: "waitlist",
     component: () =>
       import(/* webpackChunkName: "waitlist" */ "../views/Waitlist.vue")
+  },
+  {
+    path: "/teamFormation",
+    name: "teamFormation",
+    component: () =>
+      import(/* webpackChunkName: "teamFormation" */ "../views/teamFormation.vue")
   }
 ];
 

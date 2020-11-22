@@ -1,135 +1,220 @@
 <template>
   <html lang="en">
-    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>PitchPerfect</title>
-      <link rel="stylesheet" href="style.css" />
-      <!-- font -->
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Doppio+One&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap"
-        rel="stylesheet"
-      />
-      <!-- font -->
-      <!--code for prettifying visual on phone-->
-      <meta
-        content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
-        name="viewport"
-      />
-    </head>
-
-    <body>
-      <div id="pin">
-        <div id="pinicon"><img src="images/pin.png" style="width:30px" /></div>
-        <p
-          style="color:black; margin-top:0px"
-          onclick="location.href = '/thread.html'"
-        >
-          view thread
-        </p>
+    <body ref="body">
+      <div ref="1" class="pinicon">
+        <Moveable v-bind="moveable" @drag="handleDrag" @dragEnd="handleDragEnd">
+          <img src="../assets/images/pin.png" style="width: 30px" />
+          <router-link
+            :to="{
+              path: '/thread',
+              query: {
+                userId: $route.query.userId,
+                projName: $route.query.projName,
+              },
+            }"
+            ><p style="color: black; margin-top: 0px">
+              view thread
+            </p></router-link
+          >
+        </Moveable>
+      </div>
+      <div ref="2" class="pinicon">
+        <Moveable v-bind="moveable" @drag="handleDrag" @dragEnd="handleDragEnd">
+          <img src="../assets/images/pin.png" style="width: 30px" />
+          <router-link
+            :to="{
+              path: '/thread',
+              query: {
+                userId: $route.query.userId,
+                projName: $route.query.projName,
+              },
+            }"
+            ><p style="color: black; margin-top: 0px">
+              view thread
+            </p></router-link
+          >
+        </Moveable>
       </div>
       <div class="content_project" align="center" style="padding-top: 0">
         <!--menu bar-->
-        <div class="menubar">
+        <ul class="menubar">
           <li>
-            <a href="/annotate.html" style="text-decoration: none"
+            <router-link
+              class="button"
+              :to="{
+                path: '/annotate',
+                query: {
+                  userId: $route.query.userId,
+                  projName: $route.query.projName,
+                },
+              }"
+              tag="button"
               ><img
-                src="images/annotate.png"
+                src="../assets/images/annotate.png"
                 title="add annotations"
                 width="100px"
-            /></a>
-
-            <a
-              href="/sheetmusic_announcements.html"
-              style="text-decoration: none"
+            /></router-link>
+          </li>
+          <li>
+            <router-link
+              class="button"
+              :to="{
+                path: '/all_threads',
+                query: {
+                  userId: $route.query.userId,
+                  projName: $route.query.projName,
+                },
+              }"
+              tag="button"
               ><img
-                src="images/announcement.png"
+                src="../assets/images/announcement.png"
                 title="view announcements"
                 width="100px"
-            /></a>
-
-            <a href="/dictionary.html" style="text-decoration: none"
+            /></router-link>
+          </li>
+          <li>
+            <router-link
+              class="button"
+              :to="{
+                path: '/dictionary',
+                query: {
+                  userId: $route.query.userId,
+                  projName: $route.query.projName,
+                },
+              }"
+              tag="button"
               ><img
-                src="images/dictionary.png"
+                src="../assets/images/dictionary.png"
                 title="open music dictionary"
                 width="100px"
-            /></a>
-
-            <a href="/view_logs.html" style="text-decoration: none"
-              ><img
-                src="images/home.png"
-                title="view past annotation logs"
-                width="100px"
-            /></a>
+            /></router-link>
           </li>
-        </div>
+        </ul>
         <!--sheet music-->
         <img
-          src="images/music_sheet.jpg"
-          style="width:480px;margin-top:10px"
+          :src="projData.sheet_music_url"
+          style="width: 480px; margin-top: 10px"
           title="music sheet"
         />
         <!--button-->
         <br />
         <br />
-        <button
-          style="height:40px;width:100px;text-align: center"
+        <router-link
           class="mini_button"
-          onclick="location.href = '/project_main.html'"
+          style="height: 40px; width: 100px; text-align: center"
+          :to="{
+            path: '/project_main',
+            query: {
+              userId: $route.query.userId,
+              projName: $route.query.projName,
+            },
+          }"
+          tag="button"
+          >Back</router-link
         >
-          Back
-        </button>
       </div>
     </body>
   </html>
 </template>
 
+
 <script>
-// //Make the PIN element draggagle:
-// dragElement(document.getElementById("pin"));
+import { firestore } from "@/firebase";
+import { firestorage } from "@/firebase";
+import Moveable from "vue-moveable";
 
-// function dragElement(elmnt) {
-//     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-//     if (document.getElementById(elmnt.id + "header")) {
-//         /* if present, the header is where you move the DIV from:*/
-//         document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-//     } else {
-//         /* otherwise, move the DIV from anywhere inside the DIV:*/
-//         elmnt.onmousedown = dragMouseDown;
-//     }
+var projInfo = firebase.firestore().collection("projects");
 
-//     function dragMouseDown(e) {
-//         e = e || window.event;
-//         e.preventDefault();
-//         // get the mouse cursor position at startup:
-//         pos3 = e.clientX;
-//         pos4 = e.clientY;
-//         document.onmouseup = closeDragElement;
-//         // call a function whenever the cursor moves:
-//         document.onmousemove = elementDrag;
-//     }
+export default {
+  components: {
+    Moveable,
+  },
+  data() {
+    return {
+      projData: {
+        sheet_music_url: "",
+      },
+      moveable: {
+        draggable: true,
+        throttleDrag: 0,
+        clientX: 0,
+        clientY: 0,
+      },
+      threads: [],
+    };
+  },
+  created() {
+    // get sheet music from db
+    var projName = this.$route.query.projName;
+    projInfo
+      .doc(projName)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          let ui = doc.data();
+          this.projData = ui;
+          console.log(this.projData.sheet_music_url);
+        } else {
+          window.alert("hing");
+        }
+      })
+      .catch(function (error) {
+        console.log("Error retrieving user info: ", error);
+      });
+    projInfo.doc(projName).collection("threads").get().then((snapshot) => {
+      snapshot.forEach((doc) => {
+        var d = doc.data();
+        this.threads.push({
+          id: doc.id,
+          clientX: d.clientX,
+          clientY: d.clientY,
+        })
+        console.log(this.threads);
+      })
+    });
 
-//     function elementDrag(e) {
-//         e = e || window.event;
-//         e.preventDefault();
-//         // calculate the new cursor position:
-//         pos1 = pos3 - e.clientX;
-//         pos2 = pos4 - e.clientY;
-//         pos3 = e.clientX;
-//         pos4 = e.clientY;
-//         // set the element's new position:
-//         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-//         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-//     }
+  },
+  updated() {
+    // set up pins
+    var projName = this.$route.query.projName;
 
-//     function closeDragElement() {
-//         /* stop moving when mouse button is released:*/
-//         document.onmouseup = null;
-//         document.onmousemove = null;
-//     }
-// }
+    projInfo.doc(projName).collection("threads").
+      get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          let pin = doc.data();
+          pin.id = doc.id;
+          console.log(pin.id);
+          console.log("initial positions: ", pin.clientX, pin.clientY);
+          this.$refs[pin.id].style.left = pin.clientX + "px";
+          this.$refs[pin.id].style.top = pin.clientY + "px";
+        });
+      });
+  },
+  methods: {
+    handleDrag({ target, transform }) {
+      target.style.transform = transform;
+      console.log(transform);
+    },
+    handleDragEnd({ target, isDrag, clientX, clientY}) {
+      var projName = this.$route.query.projName;
+      console.log("onDragEnd", clientX, clientY);
+      console.log("pin number", this.$attrs['ref']);
+      projInfo
+        .doc(projName)
+        .collection("threads")
+        .doc("2")
+        .set({
+          clientX:
+            clientX - 10 - this.$refs["body"].getBoundingClientRect().left,
+          clientY: clientY - 9,
+        })
+        .then(() => {
+          console.log("Saving coordinates successful!");
+        })
+        .catch(function (error) {
+          console.error("Error saving coordinates of pin: ", error);
+        });
+    },
+  },
+};
 </script>

@@ -5,6 +5,8 @@ import { store, router } from "./router";
 import firebase from "firebase";
 import "firebase/firestore";
 import "./views/style.css";
+import "./views/tui-color-picker.css";
+import "./views/tui-image-editor.css";
 
 new Vue({
   router,
@@ -12,3 +14,4 @@ new Vue({
   firebase,
   render: h => h(App)
 }).$mount("#app");
+

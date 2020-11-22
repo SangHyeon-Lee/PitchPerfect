@@ -21,6 +21,7 @@ body {
 
 .content_project {
   align-content: center;
+  width: 500px;
   min-height: 800px;
   padding-top: 10px;
   background-color: #E68585;
@@ -30,10 +31,11 @@ body {
 .box {
   align-content: center;
   border-radius: 20px;
-  width:345px;
+  width:300px;
   background-color: antiquewhite;
   padding:5px;
   padding-left:50px;
+  padding-right:50px;
 }
 
 .wrapper{
@@ -50,9 +52,18 @@ body {
   background-color: #FFB19D;
   height: auto;
   border: none;
-  display: inline-block;
+  display: block;
+  float: left;
   text-decoration: none;
   color: #FFB19D;
+  margin: 0px;
+  padding: 0px;
+}
+
+.menubar li {
+  display: block;
+  float: left;
+  margin: 5px;
 }
 
 .iconDetails {
@@ -257,7 +268,7 @@ body {
   padding-left: 40px;
   width: 400px;
   text-align: left;
-  display: block;
+  display: table-cell;
 }
 
 .member {
@@ -473,3 +484,35 @@ a {
   color: white;
 }
 
+/* movable pin */
+
+.pinicon {
+  position: relative;
+  width: 0px;
+  height: 0px;
+  left: 100px;
+  top: 100px;
+}
+
+.moveable-control{
+	position: absolute;
+  width: 0px!important;
+  height: 0px!important;
+  margin: 0px!important;
+	border-radius: 0!important;
+	border: 0px!important;;
+  z-index: 10;
+}
+
+.moveable-line{
+	position: absolute;
+	width: 0px!important;
+	height: 0px!important;
+	transform-origin: 0px 0px!important;
+}
+.moveable-line.moveable-rotation-line{
+	height: 0px!important;
+	width: 0px!important;
+  transform-origin: 0px 0px!important;
+  top: 0px!important;
+}

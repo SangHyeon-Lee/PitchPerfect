@@ -26,35 +26,35 @@
           </span>
         </ul>
       </div>
-
+      <br /><br /><br /><br />
       <nav id="tabbar">
         <ul id="tab_wrap">
           <li>
             <router-link
               :to="{ path: '/library', query: { userId: $route.query.userId } }"
-              ><img src="images/home.png" width="100px"
+              ><img src="../assets/images/home.png" width="100px"
             /></router-link>
           </li>
           <li>
             <router-link
               :to="{
                 path: '/projects_page',
-                query: { userId: $route.query.userId }
+                query: { userId: $route.query.userId },
               }"
-              ><img src="images/search.png" width="100px"
+              ><img src="../assets/images/search.png" width="100px"
             /></router-link>
           </li>
-          <li><img src="images/add.png" width="100px" /></li>
+          <li><img src="../assets/images/add.png" width="100px" /></li>
           <li>
             <router-link
               :to="{
                 path: '/profile',
                 query: {
                   userId: $route.query.userId,
-                  profileId: $route.query.userId
-                }
+                  profileId: $route.query.userId,
+                },
               }"
-              ><img src="images/profile.png" width="100px"
+              ><img src="../assets/images/profile.png" width="100px"
             /></router-link>
           </li>
         </ul>
@@ -63,7 +63,7 @@
   </html>
 </template>
 <script>
-import firebase from "firebase";
+import {firestore} from '@/firebase';
 
 var projs_base = firebase.firestore().collection("projects");
 
