@@ -20,48 +20,50 @@
           class="button"
           style="background-color: #f2c94c; margin: 20px"
           v-on:click.native="send"
-          :to="{ path: '/project_main', query: { userId: $route.query.userId, projName: $route.query.projName } }"
+          :to="{
+            path: '/project_main',
+            query: {
+              userId: $route.query.userId,
+              projName: $route.query.projName
+            }
+          }"
           tag="button"
           >join</router-link
         >
         <div class="project_container">
-          <h2 style="margin-bottom: 0px; margin-top: 0px">{{ projInfo.song }}</h2>
+          <h2 style="margin-bottom: 0px; margin-top: 0px">
+            {{ projInfo.song }}
+          </h2>
           <p style="color: black; margin-top: 10px; margin-bottom: 10px">
             {{ projInfo.parts }}
           </p>
           <a class="tag">{{ projInfo.level }}</a>
         </div>
         <h3 style="margin: 20px">
-           {{ projInfo.blurb }}
+          {{ projInfo.blurb }}
         </h3>
-        <h2>Members</h2> 
-        <ul v-for="member in members_url" v-bind:key="member.index" class="members_container">
+        <h2>Members</h2>
+        <ul
+          v-for="member in members_url"
+          v-bind:key="member.index"
+          class="members_container"
+        >
           <li class="member">
-            
-            
-              <router-link
+            <router-link
               :to="{
                 path: '/profile',
                 query: {
                   userId: $route.query.userId,
-                  profileId: member[0],
+                  profileId: member[0]
                 }
               }"
-              ><img :src="member[1]" width="70px"/>
+              ><img :src="member[1]" width="70px" />
             </router-link>
             <label for="member" style="color: black">{{ member[0] }}</label>
-              
-            
-
-            
           </li>
         </ul>
         <br />
-        <button
-            class="backbutton"
-            v-on:click="toBack"
-          > Back
-        </button>
+        <button class="backbutton" v-on:click="toBack">Back</button>
         <br /><br />
       </div>
       <nav id="tabbar">
@@ -76,7 +78,7 @@
             <router-link
               :to="{
                 path: '/projects_page',
-                query: { userId: $route.query.userId },
+                query: { userId: $route.query.userId }
               }"
               ><img src="../assets/images/search.png" width="100px"
             /></router-link>
@@ -88,8 +90,8 @@
                 path: '/profile',
                 query: {
                   userId: $route.query.userId,
-                  profileId: $route.query.userId,
-                },
+                  profileId: $route.query.userId
+                }
               }"
               ><img src="../assets/images/profile.png" width="100px"
             /></router-link>
@@ -116,13 +118,13 @@ export default {
         level: "",
         blurb: "",
         members: [],
-        ongoing: false,
+        ongoing: false
       },
       userinfo: {
         name: "",
-        image_url: "",
+        image_url: ""
       },
-      members_url: [],
+      members_url: []
     };
   },
   created() {
@@ -131,7 +133,7 @@ export default {
     project_collection
       .doc(projectName)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           let pi = doc.data();
           this.projInfo = pi;
@@ -140,14 +142,14 @@ export default {
             userinfo_collection
               .doc(this.projInfo.members[i])
               .get()
-              .then((doc_user) => {
+              .then(doc_user => {
                 if (doc_user.exists) {
                   let user = doc_user.data();
                   this.userinfo = user;
                   this.members_url.push([
                     this.userinfo.name,
                     this.userinfo.image_url,
-                    this.userinfo.best_num,
+                    this.userinfo.best_num
                   ]);
                 }
               });
@@ -156,7 +158,7 @@ export default {
           window.alert("ERROR: No such project exist!");
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log("Error retrieving project info: ", error);
       });
   },
@@ -168,23 +170,23 @@ export default {
       project_collection
         .doc(projName)
         .update({
-          members: firebase.firestore.FieldValue.arrayUnion(userID),
+          members: firebase.firestore.FieldValue.arrayUnion(userID)
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.error("Error yee : ", error);
         });
       userinfo_collection
         .doc(userID)
         .update({
-          projs: firebase.firestore.FieldValue.arrayUnion(projName),
+          projs: firebase.firestore.FieldValue.arrayUnion(projName)
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.error("Error yee : ", error);
         });
     },
     toBack() {
       this.$router.go(-1);
-    },
-  },
+    }
+  }
 };
 </script>

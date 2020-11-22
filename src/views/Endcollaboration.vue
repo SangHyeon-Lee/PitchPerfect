@@ -30,8 +30,8 @@
               path: '/report',
               query: {
                 userId: $route.query.userId,
-                projName: $route.query.projName,
-              },
+                projName: $route.query.projName
+              }
             }"
             >report</router-link
           >
@@ -46,8 +46,8 @@
             path: '/rating',
             query: {
               userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
+              projName: $route.query.projName
+            }
           }"
           tag="button"
           >Continue
@@ -60,8 +60,8 @@
             path: '/project_main',
             query: {
               userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
+              projName: $route.query.projName
+            }
           }"
           tag="button"
           >Back</router-link
@@ -88,14 +88,14 @@ export default {
         level: "",
         blurb: "",
         members: [],
-        ongoing: false,
+        ongoing: false
       },
       userinfo: {
         name: "",
         image_url: "",
-        best_num: 0,
+        best_num: 0
       },
-      members_url: [],
+      members_url: []
     };
   },
   created() {
@@ -105,7 +105,7 @@ export default {
     project_collection
       .doc(projectName)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           let pi = doc.data();
           this.projInfo = pi;
@@ -114,7 +114,7 @@ export default {
             userinfo_collection
               .doc(this.projInfo.members[i])
               .get()
-              .then((doc_user) => {
+              .then(doc_user => {
                 if (doc_user.exists) {
                   let user = doc_user.data();
                   this.userinfo = user;
@@ -122,7 +122,7 @@ export default {
                     this.members_url.push([
                       this.userinfo.name,
                       this.userinfo.image_url,
-                      this.userinfo.best_num,
+                      this.userinfo.best_num
                     ]);
                   }
                 }
@@ -132,7 +132,7 @@ export default {
           window.alert("ERROR: No such project exist!");
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log("Error retrieving project info: ", error);
       });
   },
@@ -143,15 +143,15 @@ export default {
       userinfo_collection
         .doc(userName)
         .update({
-          best_num: best_num + 1,
+          best_num: best_num + 1
         })
         .then(() => {
           window.alert("voted!");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.error("Error yee : ", error);
         });
-    },
-  },
+    }
+  }
 };
 </script>

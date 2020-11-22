@@ -143,7 +143,9 @@ const routes = [
     path: "/teamFormation",
     name: "teamFormation",
     component: () =>
-      import(/* webpackChunkName: "teamFormation" */ "../views/teamFormation.vue")
+      import(
+        /* webpackChunkName: "teamFormation" */ "../views/teamFormation.vue"
+      )
   }
 ];
 

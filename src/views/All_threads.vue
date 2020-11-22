@@ -7,8 +7,7 @@
         <div
           class="wrapper"
           style="display: inline-block; color: black; text-align: left; text-decoration: black"
-        >
-        </div>
+        ></div>
         <br /><br /><br /><br />
 
         <button
@@ -25,9 +24,9 @@
 <script>
 export default {
   methods: {
-  retreat() {
-        this.$router.go(-1);
-    },
+    retreat() {
+      this.$router.go(-1);
+    }
   }
-}
+};
 </script>

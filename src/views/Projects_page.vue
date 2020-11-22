@@ -39,7 +39,7 @@
             <router-link
               :to="{
                 path: '/projects_page',
-                query: { userId: $route.query.userId },
+                query: { userId: $route.query.userId }
               }"
               ><img src="../assets/images/search.png" width="100px"
             /></router-link>
@@ -51,8 +51,8 @@
                 path: '/profile',
                 query: {
                   userId: $route.query.userId,
-                  profileId: $route.query.userId,
-                },
+                  profileId: $route.query.userId
+                }
               }"
               ><img src="../assets/images/profile.png" width="100px"
             /></router-link>
@@ -63,7 +63,7 @@
   </html>
 </template>
 <script>
-import {firestore} from '@/firebase';
+import { firestore } from "@/firebase";
 
 var projs_base = firebase.firestore().collection("projects");
 

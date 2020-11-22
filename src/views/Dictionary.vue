@@ -33,8 +33,8 @@
             path: '/sheetmusic',
             query: {
               userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
+              projName: $route.query.projName
+            }
           }"
           tag="button"
           >Back</router-link
@@ -53,8 +53,8 @@ export default {
     return {
       dic_info: {
         search: "",
-        found: [],
-      },
+        found: []
+      }
     };
   },
   // created() {
@@ -75,29 +75,33 @@ export default {
   // },
   methods: {
     find() {
-      dict = []
+      dict = [];
       var search = this.dic_info.search;
       var dict_search = firebase.firestore().collection("dictionary");
       dict_search
         .get()
-        .then((querySnapshot) =>{
-          querySnapshot.forEach(function (doc) {
+        .then(querySnapshot => {
+          querySnapshot.forEach(function(doc) {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data().term);
             var term = doc.data().term;
             var meaning = doc.data().meaning;
             var abb = doc.data().abb;
 
-            if (term.includes(search) || meaning.includes(search) || (abb != null &&abb.includes(search))) {
+            if (
+              term.includes(search) ||
+              meaning.includes(search) ||
+              (abb != null && abb.includes(search))
+            ) {
               dict.push(doc.data());
             }
           });
           this.dic_info.found = dict;
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log("Error getting documents: ", error);
         });
-    },
-  },
+    }
+  }
 };
 </script>

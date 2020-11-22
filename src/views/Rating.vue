@@ -100,8 +100,8 @@
             path: '/thankyou',
             query: {
               userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
+              projName: $route.query.projName
+            }
           }"
           tag="button"
           >I'll do later
@@ -115,8 +115,8 @@
             path: '/endcollaboration',
             query: {
               userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
+              projName: $route.query.projName
+            }
           }"
           tag="button"
           >Back

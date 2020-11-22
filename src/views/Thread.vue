@@ -33,9 +33,9 @@
 <script>
 export default {
   methods: {
-  retreat() {
-        this.$router.go(-1);
-    },
+    retreat() {
+      this.$router.go(-1);
+    }
   }
-}
+};
 </script>

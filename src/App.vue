@@ -19,9 +19,10 @@
         content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
         name="viewport"
       />
-      <tui-image-editor ref="tuiImageEditor"
-                      :include-ui="useDefaultUI"
-                      :options="options"
+      <tui-image-editor
+        ref="tuiImageEditor"
+        :include-ui="useDefaultUI"
+        :options="options"
       >
       </tui-image-editor>
       <!--code for prettifying visual on phone-->
@@ -30,36 +31,36 @@
   </div>
 </template>
 <script>
-import {ImageEditor} from '@toast-ui/vue-image-editor';
+import { ImageEditor } from "@toast-ui/vue-image-editor";
 
 export default {
-    components: {
-        'tui-image-editor': ImageEditor
-    },
-    data() {
-        return {
-            useDefaultUI: true,
-            options: {
-                includeUI: {
-                    loadImage: {
-                        path: 'sampleImage.png',
-                        name: 'SampleImage'
-                    },
-                    initMenu: 'filter'
-                },
-                cssMaxWidth: 700,
-                cssMaxHeight: 500
-            }
-        };
-    }
-    // methods: {
-    //     // onAddText(pos) {
-    //     //     ...
-    //     // },
-    //     // onObjectMoved(props) {
-    //     //     ...
-    //     // }
-    // }
+  components: {
+    "tui-image-editor": ImageEditor
+  },
+  data() {
+    return {
+      useDefaultUI: true,
+      options: {
+        includeUI: {
+          loadImage: {
+            path: "sampleImage.png",
+            name: "SampleImage"
+          },
+          initMenu: "filter"
+        },
+        cssMaxWidth: 700,
+        cssMaxHeight: 500
+      }
+    };
+  }
+  // methods: {
+  //     // onAddText(pos) {
+  //     //     ...
+  //     // },
+  //     // onObjectMoved(props) {
+  //     //     ...
+  //     // }
+  // }
 };
 </script>
 <style>
@@ -85,7 +86,7 @@ export default {
 }
 
 .imageEditorApp {
-    width: 1000px;
-    height: 800px;
+  width: 1000px;
+  height: 800px;
 }
 </style>

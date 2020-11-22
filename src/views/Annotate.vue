@@ -13,16 +13,13 @@
       ></tui-image-editor
     >
     <!-- <div ref="tuiImageEditor" :include-ui="useDefaultUI" :options="options" style="width: 100%;height: 100%;"></div> -->
-    <button
-      class="backbutton"
-      v-on:click="retreat"
-    > Back
-    </button>
+    <button class="backbutton" v-on:click="retreat">Back</button>
     <button
       class="button"
       style="background-color: #f2c94c"
       v-on:click="exportImage"
-    > Save
+    >
+      Save
     </button>
   </body>
 </template>
@@ -34,7 +31,7 @@ var project_collection = firebase.firestore().collection("projects");
 var mySheetMusic = "";
 export default {
   components: {
-    "tui-image-editor": ImageEditor,
+    "tui-image-editor": ImageEditor
   },
   data() {
     return {
@@ -43,23 +40,23 @@ export default {
         includeUI: {
           loadImage: {
             path: mySheetMusic,
-            name: "sheetmusic",
+            name: "sheetmusic"
           },
           initMenu: "draw",
           menu: ["draw", "shape", "icon", "text"],
           uiSize: {
             width: "700px",
-            height: "650px",
+            height: "650px"
           },
-          menuBarPosition: "left",
+          menuBarPosition: "left"
         },
         // for tui-image-editor component's "options" prop
         usageStatistics: false,
-        cssMaxWidth: 500,
+        cssMaxWidth: 500
       },
       projData: {
-        sheet_music_url: "",
-      },
+        sheet_music_url: ""
+      }
     };
   },
   created() {
@@ -68,7 +65,7 @@ export default {
     project_collection
       .doc(projName)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           let ui = doc.data();
           this.projData = ui;
@@ -78,7 +75,7 @@ export default {
           window.alert("hing");
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log("Error retrieving user info: ", error);
       });
   },
@@ -125,41 +122,43 @@ export default {
       annotate
         .doc(timestamp)
         .set({
-          url: save,
+          url: save
         })
         .then(() => {
           window.alert("saved!");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.error("Error yee : ", error);
         });
-      project_collection
-        .doc(projectName)
-        .update({
-          sheet_music_url: save
-        })
+      project_collection.doc(projectName).update({
+        sheet_music_url: save
+      });
       this.$router.go(-1);
     },
     retreat() {
-        if (confirm('Leaving the platform will not reflect your changes. Will you continue?')) {
+      if (
+        confirm(
+          "Leaving the platform will not reflect your changes. Will you continue?"
+        )
+      ) {
         // Save it!
-            this.$router.go(-1);
-        } 
-    },
-  },
+        this.$router.go(-1);
+      }
+    }
+  }
 };
 </script>
 <style scoped>
 body {
-  background-color: #1E1E1E;
+  background-color: #1e1e1e;
   width: 700px;
   margin: auto;
   min-height: 100%;
-  border-right:1px solid #1E1E1E;
-  border-bottom:1px solid #1E1E1E;
-  border-left:1px solid #1E1E1E;
+  border-right: 1px solid #1e1e1e;
+  border-bottom: 1px solid #1e1e1e;
+  border-left: 1px solid #1e1e1e;
   color: white;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 300;
 }
 </style>

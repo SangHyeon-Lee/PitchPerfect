@@ -36,8 +36,7 @@
 </template>
 
 <script>
-
-import {firestore} from '@/firebase';
+import { firestore } from "@/firebase";
 
 export default {
   // name : 'signUp',
@@ -51,8 +50,7 @@ export default {
   },
   methods: {
     signin() {
-      var usersRef = 
-         firestore
+      var usersRef = firestore
         .collection("userinfo")
         .doc(this.userData.nickname);
       var usernickname = this.userData.nickname;

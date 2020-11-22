@@ -24,10 +24,16 @@
           </button>
         </div>
         <br /><br /><br /><br />
-          <router-link
+        <router-link
           class="mini_button"
           style="height:40px;width:100px;text-align: center"
-          :to="{ path: '/project_main', query: { userId: $route.query.userId, projName: $route.query.projName } }"
+          :to="{
+            path: '/project_main',
+            query: {
+              userId: $route.query.userId,
+              projName: $route.query.projName
+            }
+          }"
           tag="button"
           >Back</router-link
         >

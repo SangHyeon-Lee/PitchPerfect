@@ -17,13 +17,13 @@
         <div class="wrapper">
           <div class="container">
             <img
-              src="images/home.png"
+              src="../assets/images/home.png"
               class="iconDetails"
               title="double bass"
             />
             <h2>Yewon Kim</h2>
-            <a href="/?"><img src="images/home.png" class="checkbox"/></a>
-            <a href="/?"><img src="images/home.png" class="checkbox"/></a>
+            <a href="/?"><img src="../assets/images/home.png" class="checkbox"/></a>
+            <a href="/?"><img src="../assets/images/home.png" class="checkbox"/></a>
           </div>
         </div>
         <br /><br /><br /><br />

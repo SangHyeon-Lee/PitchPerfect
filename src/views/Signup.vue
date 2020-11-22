@@ -174,20 +174,20 @@ export default {
         level: "",
         tag1: "",
         tag2: "",
-        tag3: "",
+        tag3: ""
       },
       image_url: "images/fyeesh.png",
-      is_show: false,
+      is_show: false
     };
   },
   methods: {
-    name_check: function () {
+    name_check: function() {
       var userName = this.userData.nickname;
       const usersRef = firebase
         .firestore()
         .collection("userinfo")
         .doc(userName);
-      usersRef.get().then((docSnapshot) => {
+      usersRef.get().then(docSnapshot => {
         if (docSnapshot.exists) {
           window.alert("Username Already Exists!");
         } else {
@@ -195,10 +195,10 @@ export default {
         }
       });
     },
-    handle_toggle: function () {
+    handle_toggle: function() {
       this.is_show = !this.is_show; // #2, #3
     },
-    login: function () {
+    login: function() {
       var userName = this.userData.nickname;
       var userPass = this.userData.password;
       var userAge = this.userData.age;
@@ -211,7 +211,7 @@ export default {
       firestorage
         .ref(this.image_url)
         .getDownloadURL()
-        .then((url) => {
+        .then(url => {
           userinfo
             .doc(userName)
             .set({
@@ -227,24 +227,24 @@ export default {
               tag2: tag2,
               tag3: tag3,
               report: [],
-              best_num: 0,
+              best_num: 0
             })
             .then(() => {
               window.alert("saved!");
               this.$router.push({
                 path: "/library",
                 query: { userId: userName },
-                params: { username: userPass },
+                params: { username: userPass }
               });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.error("Error yee : ", error);
             });
         });
 
       console.log("submitted!");
     },
-    check_password: function () {
+    check_password: function() {
       var password = this.userData.password;
       var password_check = this.userData.password_check;
       if (password != password_check) {
@@ -263,14 +263,14 @@ export default {
     imageUpload(e) {
       console.log(this.$refs.uploadInput);
       var filelist = e.target.files || e.dataTransfer.files;
-      Array.from(Array(filelist.length).keys()).map((x) => {
+      Array.from(Array(filelist.length).keys()).map(x => {
         this.upload_file(filelist[x]);
       });
-    },
+    }
     // popup_description() {
     // 	var popup = document.getElementById("description");
     // 	popup.classList.toggle("show");
     // }
-  },
+  }
 };
 </script>

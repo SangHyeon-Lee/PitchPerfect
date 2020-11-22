@@ -5,8 +5,8 @@
         <h1 id="user">{{ $route.query.userId }}'s Library</h1>
         <h2>Projects in progress</h2>
         <!-- <dl> -->
-          <!-- <dt v-for="entry in projects" :key="entry.name"> -->
-            <!-- {{ entry.projs }} -->
+        <!-- <dt v-for="entry in projects" :key="entry.name"> -->
+        <!-- {{ entry.projs }} -->
         <ul class="projects">
           <li
             v-for="project in ongoing_projects"
@@ -29,14 +29,14 @@
             &lt;empty&gt;
           </span>
         </ul>
-          <!-- </dt> -->
+        <!-- </dt> -->
         <!-- </dl> -->
         <router-link
           class="backbutton"
           style="width: 200px; padding: 10px"
           :to="{
             path: '/projects_page',
-            query: { userId: $route.query.userId },
+            query: { userId: $route.query.userId }
           }"
           tag="button"
           >Find projects</router-link
@@ -66,12 +66,13 @@
           </span>
         </ul>
         <br /><br /><br /><br />
-        <router-link 
-        class="backbutton" 
-        to="/" 
-        style="color:white;background-color:gray"
-        tag="button"> 
-        logout
+        <router-link
+          class="backbutton"
+          to="/"
+          style="color:white;background-color:gray"
+          tag="button"
+        >
+          logout
         </router-link>
       </div>
 
@@ -89,7 +90,7 @@
             <router-link
               :to="{
                 path: '/projects_page',
-                query: { userId: $route.query.userId },
+                query: { userId: $route.query.userId }
               }"
               ><img src="../assets/images/search.png" width="100px"
             /></router-link>
@@ -98,7 +99,7 @@
             <router-link
               :to="{
                 path: '/teamFormation',
-                query: { userId: $route.query.userId },
+                query: { userId: $route.query.userId }
               }"
               ><img src="../assets/images/add.png" width="100px"
             /></router-link>
@@ -109,8 +110,8 @@
                 path: '/profile',
                 query: {
                   userId: $route.query.userId,
-                  profileId: $route.query.userId,
-                },
+                  profileId: $route.query.userId
+                }
               }"
               ><img src="../assets/images/profile.png" width="100px"
             /></router-link>
@@ -128,32 +129,34 @@ export default {
   data() {
     return {
       ongoing_projects: [],
-      previous_projects: [],
+      previous_projects: []
     };
   },
   created() {
     var userID = this.$route.query.userId;
-    console.log(userID)
+    console.log(userID);
     // window.alert("HI");
     var userprojs_db = userprojs.doc(userID);
-    userprojs_db.get().then((doc) => {
-      var my_projs = doc.data().projs;
-      var i;
-      for (i = 0; i < my_projs.length; i++) {
-        var proj_entry = projects.doc(my_projs[i])
-        proj_entry.get().then((doc) => {
-          var project_data = doc.data();
-          if (project_data.ongoing) {
-            this.ongoing_projects.push(project_data);
-          } else {
-            this.previous_projects.push(project_data);
-          }
-        })
-      }
-    })
-    .catch(function(error) {
+    userprojs_db
+      .get()
+      .then(doc => {
+        var my_projs = doc.data().projs;
+        var i;
+        for (i = 0; i < my_projs.length; i++) {
+          var proj_entry = projects.doc(my_projs[i]);
+          proj_entry.get().then(doc => {
+            var project_data = doc.data();
+            if (project_data.ongoing) {
+              this.ongoing_projects.push(project_data);
+            } else {
+              this.previous_projects.push(project_data);
+            }
+          });
+        }
+      })
+      .catch(function(error) {
         console.log("Error getting dictionary entry:", error);
-    });
+      });
   },
   methods: {
     view(team) {

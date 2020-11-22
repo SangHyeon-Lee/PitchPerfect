@@ -110,17 +110,20 @@ export default {
         parts: "",
         level: "",
         blurb: "",
-        ongoing: true,
+        ongoing: true
       },
       image_url: "images/music_sheet.png",
-      is_show: false,
+      is_show: false
     };
   },
   methods: {
-    name_check: function () {
+    name_check: function() {
       var teamName = this.teamInfo.team;
-      const teamRef = firebase.firestore().collection("projects").doc(teamName);
-      teamRef.get().then((docSnapshot) => {
+      const teamRef = firebase
+        .firestore()
+        .collection("projects")
+        .doc(teamName);
+      teamRef.get().then(docSnapshot => {
         if (docSnapshot.exists) {
           window.alert("Team name Already Exists!");
         } else {
@@ -128,10 +131,10 @@ export default {
         }
       });
     },
-    handle_toggle: function () {
+    handle_toggle: function() {
       this.is_show = !this.is_show; // #2, #3
     },
-    login: function () {
+    login: function() {
       var userName = this.$route.query.userId;
       var teamName = this.teamInfo.team;
       var song = this.teamInfo.song;
@@ -142,7 +145,7 @@ export default {
       firestorage
         .ref(this.image_url)
         .getDownloadURL()
-        .then((url) => {
+        .then(url => {
           teamdb
             .doc(teamName)
             .set({
@@ -154,23 +157,23 @@ export default {
               sheet_music_url: url,
               members: [userName],
               announcements: "",
-              ongoing: true,
+              ongoing: true
             })
             .then(() => {
               window.alert("saved!");
               this.$router.push({
                 path: "/project_main",
-                query: { userId: userName, projName: teamName },
+                query: { userId: userName, projName: teamName }
               });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.error("Error yee : ", error);
             });
         });
 
       console.log("submitted!");
     },
-    check_password: function () {
+    check_password: function() {
       this.login();
     },
     upload_file(file) {
@@ -182,14 +185,14 @@ export default {
     imageUpload(e) {
       console.log(this.$refs.uploadInput);
       var filelist = e.target.files || e.dataTransfer.files;
-      Array.from(Array(filelist.length).keys()).map((x) => {
+      Array.from(Array(filelist.length).keys()).map(x => {
         this.upload_file(filelist[x]);
       });
-    },
+    }
     // popup_description() {
     // 	var popup = document.getElementById("description");
     // 	popup.classList.toggle("show");
     // }
-  },
+  }
 };
 </script>

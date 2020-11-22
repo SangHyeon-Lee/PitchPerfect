@@ -53,8 +53,8 @@
               path: '/thankyou',
               query: {
                 userId: $route.query.userId,
-                projName: $route.query.projName,
-              },
+                projName: $route.query.projName
+              }
             }"
             tag="button"
             >Submit
@@ -68,8 +68,8 @@
             path: '/endcollaboration',
             query: {
               userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
+              projName: $route.query.projName
+            }
           }"
           tag="button"
           >Back
@@ -95,18 +95,18 @@ export default {
         level: "",
         blurb: "",
         members: [],
-        ongoing: false,
+        ongoing: false
       },
       userinfo: {
         name: "",
         image_url: "",
-        report: [],
+        report: []
       },
       members_url: [],
       report_info: {
         reportuser: 0,
-        report_content: "",
-      },
+        report_content: ""
+      }
     };
   },
   created() {
@@ -116,7 +116,7 @@ export default {
     project_collection
       .doc(projectName)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           let pi = doc.data();
           this.projInfo = pi;
@@ -125,7 +125,7 @@ export default {
             userinfo_collection
               .doc(this.projInfo.members[i])
               .get()
-              .then((doc_user) => {
+              .then(doc_user => {
                 if (doc_user.exists) {
                   let user = doc_user.data();
                   this.userinfo = user;
@@ -133,7 +133,7 @@ export default {
                     this.members_url.push([
                       this.userinfo.name,
                       this.userinfo.image_url,
-                      this.userinfo.report,
+                      this.userinfo.report
                     ]);
                   }
                 }
@@ -143,7 +143,7 @@ export default {
           window.alert("ERROR: No such project exist!");
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log("Error retrieving project info: ", error);
       });
   },
@@ -159,15 +159,15 @@ export default {
       userinfo_collection
         .doc(userName)
         .update({
-          report: firebase.firestore.FieldValue.arrayUnion(report_content),
+          report: firebase.firestore.FieldValue.arrayUnion(report_content)
         })
         .then(() => {
           window.alert("reported!");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.error("Error yee : ", error);
         });
-    },
-  },
+    }
+  }
 };
 </script>

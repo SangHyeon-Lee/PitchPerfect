@@ -9,8 +9,8 @@
               path: '/thread',
               query: {
                 userId: $route.query.userId,
-                projName: $route.query.projName,
-              },
+                projName: $route.query.projName
+              }
             }"
             ><p style="color: black; margin-top: 0px">
               view thread
@@ -26,8 +26,8 @@
               path: '/thread',
               query: {
                 userId: $route.query.userId,
-                projName: $route.query.projName,
-              },
+                projName: $route.query.projName
+              }
             }"
             ><p style="color: black; margin-top: 0px">
               view thread
@@ -45,8 +45,8 @@
                 path: '/annotate',
                 query: {
                   userId: $route.query.userId,
-                  projName: $route.query.projName,
-                },
+                  projName: $route.query.projName
+                }
               }"
               tag="button"
               ><img
@@ -62,8 +62,8 @@
                 path: '/all_threads',
                 query: {
                   userId: $route.query.userId,
-                  projName: $route.query.projName,
-                },
+                  projName: $route.query.projName
+                }
               }"
               tag="button"
               ><img
@@ -79,8 +79,8 @@
                 path: '/dictionary',
                 query: {
                   userId: $route.query.userId,
-                  projName: $route.query.projName,
-                },
+                  projName: $route.query.projName
+                }
               }"
               tag="button"
               ><img
@@ -106,8 +106,8 @@
             path: '/project_main',
             query: {
               userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
+              projName: $route.query.projName
+            }
           }"
           tag="button"
           >Back</router-link
@@ -116,7 +116,6 @@
     </body>
   </html>
 </template>
-
 
 <script>
 import { firestore } from "@/firebase";
@@ -127,20 +126,20 @@ var projInfo = firebase.firestore().collection("projects");
 
 export default {
   components: {
-    Moveable,
+    Moveable
   },
   data() {
     return {
       projData: {
-        sheet_music_url: "",
+        sheet_music_url: ""
       },
       moveable: {
         draggable: true,
         throttleDrag: 0,
         clientX: 0,
-        clientY: 0,
+        clientY: 0
       },
-      threads: [],
+      threads: []
     };
   },
   created() {
@@ -149,7 +148,7 @@ export default {
     projInfo
       .doc(projName)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           let ui = doc.data();
           this.projData = ui;
@@ -158,29 +157,35 @@ export default {
           window.alert("hing");
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log("Error retrieving user info: ", error);
       });
-    projInfo.doc(projName).collection("threads").get().then((snapshot) => {
-      snapshot.forEach((doc) => {
-        var d = doc.data();
-        this.threads.push({
-          id: doc.id,
-          clientX: d.clientX,
-          clientY: d.clientY,
-        })
-        console.log(this.threads);
-      })
-    });
-
+    projInfo
+      .doc(projName)
+      .collection("threads")
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          var d = doc.data();
+          this.threads.push({
+            id: doc.id,
+            clientX: d.clientX,
+            clientY: d.clientY
+          });
+          console.log(this.threads);
+        });
+      });
   },
   updated() {
     // set up pins
     var projName = this.$route.query.projName;
 
-    projInfo.doc(projName).collection("threads").
-      get().then((snapshot) => {
-        snapshot.forEach((doc) => {
+    projInfo
+      .doc(projName)
+      .collection("threads")
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
           let pin = doc.data();
           pin.id = doc.id;
           console.log(pin.id);
@@ -195,10 +200,10 @@ export default {
       target.style.transform = transform;
       console.log(transform);
     },
-    handleDragEnd({ target, isDrag, clientX, clientY}) {
+    handleDragEnd({ target, isDrag, clientX, clientY }) {
       var projName = this.$route.query.projName;
       console.log("onDragEnd", clientX, clientY);
-      console.log("pin number", this.$attrs['ref']);
+      console.log("pin number", this.$attrs["ref"]);
       projInfo
         .doc(projName)
         .collection("threads")
@@ -206,15 +211,15 @@ export default {
         .set({
           clientX:
             clientX - 10 - this.$refs["body"].getBoundingClientRect().left,
-          clientY: clientY - 9,
+          clientY: clientY - 9
         })
         .then(() => {
           console.log("Saving coordinates successful!");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.error("Error saving coordinates of pin: ", error);
         });
-    },
-  },
+    }
+  }
 };
 </script>
