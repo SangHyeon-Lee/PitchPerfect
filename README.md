@@ -23,7 +23,7 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-Main JavaScript File: Main.js
-Main Vuejs File: App.vue
-Routing: router/index.js
-Location of Folder of Images Used: assets/images
+Main JavaScript File: Main.js <br />
+Main Vuejs File: App.vue <br />
+Routing: router/index.js <br />
+Location of Folder of Images Used: assets/images <br />
