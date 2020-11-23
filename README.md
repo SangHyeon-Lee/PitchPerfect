@@ -33,5 +33,6 @@ router/index.js
 assets/images
 ### Firebase Configuration JavaScript File: 
 firebase.js 
+<br />
 
-Our prototype is published by using github pages. main.js loads App.vue, and App.vue renders our main page, which is Main.vue in views directory. All of our pages are in views directory, and index.js in router directory contains all of the routing information and paths for pages
+Our prototype is published by using github pages. main.js loads App.vue, and App.vue renders our main page, which is Main.vue in views directory. All of our pages are in views directory, and index.js in router directory contains all of the routing information and paths for pages. For retrieving information from our database in Firebase, firebase.js is used as it contains the configuration information of our Cloud Firestore 
