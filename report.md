@@ -15,11 +15,9 @@ Due to the pandemic, people with musical interests, especially amateurs who don�
 
 1. When you go to our prototype URL, you’ll be navigated to the **main page** of our project. Please **sign in** with the given account. (ID: test, PASSWORD: test)
     1. You can also choose to **sign up**. The information you fill in here will be displayed in that account’s **personal profile page**. At this point, you should upload your profile image.
-**Screenshot 1: Page containing a list of ongoing projects in PitchPerfect.**  
-<img src="./images/frame10.png" width="300"/>  
 2. Once you are signed in, you’ll be in your project library page. You’ll be able to see a list of ongoing projects that you are a part of and a list of completed projects that you participated in previously. 
-    1. By clicking the **“Find projects” button**, you are navigated to the **ongoing projects page**, which contains a list of all ongoing projects in PitchPerfect. (explained more in 3)
-    2. By clicking the “Find projects” button, you are navigated to the ongoing projects page, which contains a list of all ongoing projects in PitchPerfect. (explained more in 3)
+    1. By clicking on any of the projects below “Projects in Progress” or “Previous Projects", you can navigate to the **team project page** for that team. (explained more in 5)
+    2. By clicking the **“Find projects” button**, you are navigated to the **ongoing projects page**, which contains a list of all ongoing projects in PitchPerfect. (explained more in 3)
     3. The navigation bar at the bottom of your screen helps you to navigate quickly to the page you want.
         1. The first **“home” icon** takes you to your **library page**.
         2. The second **“search” icon** takes you to the **ongoing projects page**. (explained more in 3)
