@@ -264,17 +264,23 @@ body {
 }
 
 .members_container {
-  padding: 5px;
-  padding-left: 40px;
-  width: 400px;
+  width: 25%;
+  padding: 0px;
   text-align: left;
-  display: table-cell;
+  display: inline-block;
+  margin-left: 20px;
 }
 
 .member {
-  width: 100px;
   text-align: center;
   display: table-cell;
+}
+
+.pre {
+  display: block;
+  font-family: Arial;
+  white-space: pre;
+  margin: 1em 0;
 }
 
 input[type=checkbox] {
@@ -490,8 +496,8 @@ a {
   position: relative;
   width: 0px;
   height: 0px;
-  left: 100px;
-  top: 100px;
+  left: 400px;
+  top: 120px;
 }
 
 .moveable-control{

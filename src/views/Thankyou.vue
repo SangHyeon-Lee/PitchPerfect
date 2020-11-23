@@ -28,24 +28,43 @@
       <nav id="tabbar">
         <ul id="tab_wrap">
           <li>
-            <a href="/library.html"
+            <router-link
+              :to="{ path: '/library', query: { userId: $route.query.userId } }"
               ><img src="../assets/images/home.png" width="100px"
-            /></a>
+            /></router-link>
           </li>
           <li>
-            <a href="/search.html"
+            <router-link
+              :to="{
+                path: '/projects_page',
+                query: { userId: $route.query.userId }
+              }"
               ><img src="../assets/images/search.png" width="100px"
-            /></a>
+            /></router-link>
           </li>
           <li>
-            <a href="/add.html"
+            <router-link
+              :to="{
+                path: '/teamFormation',
+                query: {
+                  userId: $route.query.userId,
+                  profileId: $route.query.userId
+                }
+              }"
               ><img src="../assets/images/add.png" width="100px"
-            /></a>
+            /></router-link>
           </li>
           <li>
-            <a href="/profile.html"
+            <router-link
+              :to="{
+                path: '/profile',
+                query: {
+                  userId: $route.query.userId,
+                  profileId: $route.query.userId
+                }
+              }"
               ><img src="../assets/images/profile.png" width="100px"
-            /></a>
+            /></router-link>
           </li>
         </ul>
       </nav>

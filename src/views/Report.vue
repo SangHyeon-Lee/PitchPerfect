@@ -112,7 +112,6 @@ export default {
   created() {
     var projectName = this.$route.query.projName;
     var myName = this.$route.query.userId;
-    console.log(projectName);
     project_collection
       .doc(projectName)
       .get()
@@ -150,12 +149,11 @@ export default {
   methods: {
     report() {
       var index = this.report_info.reportuser;
-      console.log("yeeeeee: ", index);
-      console.log("report: ", this.report_info.report_content);
+
       var userName = this.members_url[index][0];
       var report_content = this.report_info.report_content;
       var report_array = this.members_url[index][2];
-      console.log("report: ", report_array);
+
       userinfo_collection
         .doc(userName)
         .update({

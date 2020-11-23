@@ -9,22 +9,19 @@
           class="roundtag"
           style="background-color:#2D9CD8;"
           >{{ userData.instrument
-          }}<img src="../assets/images/bbiyak.png" width="20px"
-        /></a>
+          }}🐣</a>
         <a
           v-if="userData.level == 'level2'"
           class="roundtag"
           style="background-color:#2D9CD8;"
           >{{ userData.instrument
-          }}<img src="../assets/images/zombie.png" width="20px"
-        /></a>
+          }}🐥</a>
         <a
           v-if="userData.level == 'level3'"
           class="roundtag"
           style="background-color:#2D9CD8;"
           >{{ userData.instrument
-          }}<img src="../assets/images/fish.png" width="20px"
-        /></a>
+          }}🐦</a>
         <br />
         <a class="roundtag" style="background-color:#27AE60;">{{
           userData.tag1
@@ -36,6 +33,7 @@
           userData.tag3
         }}</a>
         <h3>{{ userData.bio }}</h3>
+        <h4 class="roundtag" style="background-color: #ffde3b"> 💖 {{userData.best_num}}</h4>
         <h2 style="text-align: left; margin-left: 40px">Previous Projects</h2>
         <ul class="projects">
           <li
@@ -78,9 +76,19 @@
               ><img src="../assets/images/search.png" width="100px"
             /></router-link>
           </li>
-          <li><img src="../assets/images/add.png" width="100px" /></li>
           <li>
             <router-link
+              :to="{
+                path: '/teamFormation',
+                query: { userId: $route.query.userId }
+              }"
+              ><img src="../assets/images/add.png" width="100px"
+            /></router-link>
+          </li>
+          <li>
+            <img src="../assets/images/profile.png" width="100px" @click="myprofile"
+            />
+            <!-- <router-link
               :to="{
                 path: '/profile',
                 query: {
@@ -89,7 +97,7 @@
                 }
               }"
               ><img src="../assets/images/profile.png" width="100px"
-            /></router-link>
+            /></router-link> -->
           </li>
         </ul>
       </nav>
@@ -117,14 +125,15 @@ export default {
         tag1: "",
         tag2: "",
         tag3: "",
-        image_url: ""
+        image_url: "",
+        report: [],
+        best_num: 0
       },
       previous_projects: []
     };
   },
   created() {
     var userNickname = this.$route.query.profileId;
-    console.log(userNickname);
     userInfo
       .doc(userNickname)
       .get()
@@ -156,10 +165,18 @@ export default {
       var userNickname = this.$route.query.userId;
       var teamName = team;
       this.$router.push({
-        path: "/project_summary",
+        path: "/project_main",
         query: { userId: userNickname, projName: teamName },
         params: { userId: userNickname, projName: teamName }
       });
+    },
+    myprofile() {
+      var userNickname = this.$route.query.userId;
+      this.$router.push({
+        query: { userId: userNickname, profileId: userNickname },
+        params: { userId: userNickname, profileId: userNickname }
+      });
+      this.$router.go(0);
     }
   }
 };

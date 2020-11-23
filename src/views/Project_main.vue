@@ -95,7 +95,7 @@
         >
         <!-- <button style="height:70px;width:400px" class="button" onclick = "location.href = '/endcollaboration.html'">End Collaboration</button> -->
       </div>
-      <br /><br />
+      <br /><br /><br /><br />
 
       <nav id="tabbar">
         <ul id="tab_wrap">
@@ -114,7 +114,15 @@
               ><img src="../assets/images/search.png" width="100px"
             /></router-link>
           </li>
-          <li><img src="../assets/images/add.png" width="100px" /></li>
+          <li>
+            <router-link
+              :to="{
+                path: '/teamFormation',
+                query: { userId: $route.query.userId }
+              }"
+              ><img src="../assets/images/add.png" width="100px"
+            /></router-link>
+          </li>
           <li>
             <router-link
               :to="{
@@ -155,7 +163,7 @@ export default {
   },
   created() {
     var projectName = this.$route.query.projName;
-    console.log(projectName);
+
     project_collection
       .doc(projectName)
       .get()

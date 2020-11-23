@@ -22,7 +22,6 @@
             type="submit"
             class="button"
             style="color:white; background-color:#F2C94C"
-            @click.stop="signin"
           >
             Sign In
           </button>
@@ -60,7 +59,7 @@ export default {
         .then(doc => {
           if (doc.exists) {
             var password = doc.data()["password"];
-            console.log("password: ", password);
+
             if (password == putpassword) {
               // self.$router.replace({location: '/library'});
               this.$router.push({

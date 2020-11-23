@@ -8,7 +8,7 @@
           <input
             type="text"
             style="width: 230px"
-            placeholder="Nickname"
+            placeholder='Nickname (You cannot use "/")'
             name="nickname"
             v-model="userData.nickname"
             required
@@ -44,10 +44,16 @@
             required
           />
           <br /><br />
-          <h3>Upload Profile Image</h3>
+          <h3>Upload Profile Image (mandatory)</h3>
 
           <br />
-          <label for="files"> Upload Image </label>
+          <div v-if="!this.uploaded">
+            <label for="files"> Upload Image (click!)</label>
+          </div>
+          <div v-else>
+            <label for="files"> Uploaded!</label>
+          </div>
+
           <input
             id="files"
             type="file"
@@ -91,22 +97,36 @@
           <label for="level3">Level 3</label>
           <br /><br />
           <button class="copy_button" @click="handle_toggle" type="button">
-            How do I decide my proficiency level?
+            How do I decide my proficiency level? (click again to close)
           </button>
 
           <!-- #2 : Modal Window -->
-          <div v-show="is_show">
+          <div style="text-align:justified;" v-show="is_show">
             <p>
-              Level1: Just started learning the instrument
+              🐣<b>Level1: Beginner</b> 
+              <br> you have no previous experience,
               <br />
-              Level2: Learned instrument for at least 6 months
+              or you know how to play some simple tunes. 
+              <br /> You may not feel confident yet, but you love the music 
+              <br>that your
+              instrument can make!
               <br />
-              Level3: Learned instrument for at least 2 years
+              🐥<b>Level2: Solo player</b>
+              <br> You can play some pieces of music,
+              <br />
+              but you have a few previous  
+              <br> collaboration experiences with others.
+              <br />
+              🐦<b>Level3: Collaborator</b> 
+              <br> You can play some pieces of music 
+              <br> (and you feel pretty confident), 
+              <br> and you have several collaboration
+              experiences!
             </p>
           </div>
 
           <br /><br />
-          <button class="redbutton" style="width: 300px">
+          <button class="redbutton" style="width: 300px" @click="not_implemented">
             Click to add instruments
           </button>
 
@@ -137,17 +157,15 @@
             v-model="userData.tag3"
             required
           />
-          <button class="redbutton" style="width: 300px">
+          <button class="redbutton" style="width: 300px" @click="not_implemented">
             Click to add more tags
           </button>
           <br /><br /><br />
-
-          <button type="submit" @click.stop="check_password" class="button">
-            Sign Up
-          </button>
+          <router-link class="backbutton" to="/" tag="button">
+            Back
+          </router-link>
+          <button type="submit" class="button">Sign Up</button>
         </form>
-
-        <router-link class="backbutton" to="/" tag="button"> Back </router-link>
       </div>
     </body>
   </html>
@@ -174,20 +192,21 @@ export default {
         level: "",
         tag1: "",
         tag2: "",
-        tag3: ""
+        tag3: "",
       },
-      image_url: "images/fyeesh.png",
-      is_show: false
+      image_url: "../assets/images/fyeesh.png",
+      is_show: false,
+      uploaded: false,
     };
   },
   methods: {
-    name_check: function() {
+    name_check: function () {
       var userName = this.userData.nickname;
       const usersRef = firebase
         .firestore()
         .collection("userinfo")
         .doc(userName);
-      usersRef.get().then(docSnapshot => {
+      usersRef.get().then((docSnapshot) => {
         if (docSnapshot.exists) {
           window.alert("Username Already Exists!");
         } else {
@@ -195,10 +214,10 @@ export default {
         }
       });
     },
-    handle_toggle: function() {
+    handle_toggle: function () {
       this.is_show = !this.is_show; // #2, #3
     },
-    login: function() {
+    login: function () {
       var userName = this.userData.nickname;
       var userPass = this.userData.password;
       var userAge = this.userData.age;
@@ -211,7 +230,7 @@ export default {
       firestorage
         .ref(this.image_url)
         .getDownloadURL()
-        .then(url => {
+        .then((url) => {
           userinfo
             .doc(userName)
             .set({
@@ -227,50 +246,49 @@ export default {
               tag2: tag2,
               tag3: tag3,
               report: [],
-              best_num: 0
+              best_num: 0,
             })
             .then(() => {
               window.alert("saved!");
               this.$router.push({
                 path: "/library",
                 query: { userId: userName },
-                params: { username: userPass }
+                params: { username: userPass },
               });
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.error("Error yee : ", error);
             });
+        })
+        .catch(function (error) {
+          console.error("Error yee : ", error);
         });
 
       console.log("submitted!");
     },
-    check_password: function() {
+    check_password: function () {
       var password = this.userData.password;
       var password_check = this.userData.password_check;
       if (password != password_check) {
         window.alert("Passwords are different!");
       } else {
-        console.log("good to go");
         this.login();
       }
     },
     upload_file(file) {
       firestorage.ref("images/" + file.name).put(file);
       this.image_url = "images/" + file.name;
-
-      console.log(this.image_url);
+      this.uploaded = true;
     },
     imageUpload(e) {
-      console.log(this.$refs.uploadInput);
       var filelist = e.target.files || e.dataTransfer.files;
-      Array.from(Array(filelist.length).keys()).map(x => {
+      Array.from(Array(filelist.length).keys()).map((x) => {
         this.upload_file(filelist[x]);
       });
+    },
+    not_implemented() {
+    	window.alert("Feature not yet implemented :(")
     }
-    // popup_description() {
-    // 	var popup = document.getElementById("description");
-    // 	popup.classList.toggle("show");
-    // }
-  }
+  },
 };
 </script>

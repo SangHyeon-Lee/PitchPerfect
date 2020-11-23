@@ -59,7 +59,9 @@
               }"
               ><img :src="member[1]" width="70px" />
             </router-link>
-            <label for="member" style="color: black">{{ member[0] }}</label>
+            <label class="member_label" for="member" style="color: black" > 
+              <pre class="pre">{{ member[0] }}</pre>
+            </label>
           </li>
         </ul>
         <br />
@@ -83,7 +85,18 @@
               ><img src="../assets/images/search.png" width="100px"
             /></router-link>
           </li>
-          <li><img src="../assets/images/add.png" width="100px" /></li>
+          <li>
+            <router-link
+              :to="{
+                path: '/teamFormation',
+                query: {
+                  userId: $route.query.userId,
+                  profileId: $route.query.userId
+                }
+              }"
+              ><img src="../assets/images/add.png" width="100px"
+            /></router-link>
+          </li>
           <li>
             <router-link
               :to="{
@@ -129,7 +142,7 @@ export default {
   },
   created() {
     var projectName = this.$route.query.projName;
-    console.log(projectName);
+
     project_collection
       .doc(projectName)
       .get()
@@ -164,7 +177,7 @@ export default {
   },
   methods: {
     send() {
-      console.log("byebyebye");
+
       var userID = this.$route.query.userId;
       var projName = this.$route.query.projName;
       project_collection

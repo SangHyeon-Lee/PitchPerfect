@@ -3,6 +3,7 @@
     <body>
       <div class="content_project" padding-top="5px" align="center">
         <h2>Music Term Dictionary</h2>
+        <h4>Our dictionary is case-sensitive for now... :(</h4>
         <br />
         <div class="wrapper" style="color: black; text-align: left">
           <form @submit.prevent="find" style="width: 360px; padding: 0px">
@@ -57,22 +58,6 @@ export default {
       }
     };
   },
-  // created() {
-  //   var dict_search = firebase.firestore().collection("dictionary");
-  //   dict_search
-  //     .get()
-  //     .then(function (querySnapshot) {
-  //       querySnapshot.forEach(function (doc) {
-  //         // doc.data() is never undefined for query doc snapshots
-  //         console.log(doc.id, " => ", doc.data().term);
-
-  //         dict.push(doc.data());
-  //       });
-  //     })
-  //     .catch(function (error) {
-  //       console.log("Error getting documents: ", error);
-  //     });
-  // },
   methods: {
     find() {
       dict = [];
@@ -82,8 +67,7 @@ export default {
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data().term);
+            // console.log(doc.id, " => ", doc.data().term);
             var term = doc.data().term;
             var meaning = doc.data().meaning;
             var abb = doc.data().abb;
@@ -97,6 +81,9 @@ export default {
             }
           });
           this.dic_info.found = dict;
+          if (dict.length == 0){
+            window.alert("This term does not exist in dictionary :(")
+          }
         })
         .catch(function(error) {
           console.log("Error getting documents: ", error);

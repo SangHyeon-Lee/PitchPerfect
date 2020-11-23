@@ -27,7 +27,8 @@
 import { ImageEditor } from "@toast-ui/vue-image-editor";
 import sheetMusic from "../assets/images/music_sheet.jpg";
 import { firestore } from "@/firebase";
-var project_collection = firebase.firestore().collection("projects");
+var project_collection = firebase.firestore().collection("annotated");
+var project_db = firebase.firestore().collection("projects");
 var mySheetMusic = "";
 export default {
   components: {
@@ -62,15 +63,15 @@ export default {
   created() {
     // get sheet music from db
     var projName = this.$route.query.projName;
-    project_collection
+    console.log("fighting");
+    project_db
       .doc(projName)
       .get()
       .then(doc => {
         if (doc.exists) {
           let ui = doc.data();
           this.projData = ui;
-          console.log(this.projData.sheet_music_url);
-          mySheetMusic = this.projData.sheet_music_url;
+          mySheetMusic = this.projData.sheet_music_url; //[this.projData.url.length - 1]
         } else {
           window.alert("hing");
         }
@@ -101,9 +102,7 @@ export default {
     },
     exportImage() {
       var projectName = this.$route.query.projName;
-      var annotate = project_collection
-        .doc(projectName)
-        .collection("annotated");
+      
       const save = this.$refs.tuiImageEditor.invoke("toDataURL");
       console.log(save);
       /* get timestamp */
@@ -119,10 +118,11 @@ export default {
       const dateTime = date + " " + time;
       const timestamp = dateTime;
       console.log(timestamp);
-      annotate
-        .doc(timestamp)
-        .set({
-          url: save
+       // memory hing sibal TT
+      project_collection.doc(projectName)
+        .update({
+          // url: firebase.firestore.FieldValue.arrayUnion(save),
+          timestamp: firebase.firestore.FieldValue.arrayUnion(timestamp)
         })
         .then(() => {
           window.alert("saved!");
@@ -130,7 +130,8 @@ export default {
         .catch(function(error) {
           console.error("Error yee : ", error);
         });
-      project_collection.doc(projectName).update({
+      //projects db
+      project_db.doc(projectName).update({
         sheet_music_url: save
       });
       this.$router.go(-1);

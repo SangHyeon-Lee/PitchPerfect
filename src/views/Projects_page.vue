@@ -3,6 +3,8 @@
     <body>
       <div class="content" align="center">
         <h1>Projects</h1>
+        <p style="font-size:20px">List of all ongoing projects in PitchPerfect</p>
+        <p>Note: Your ongoing projects are excluded</p>
         <ul class="projects">
           <li
             v-for="project in projs"
@@ -44,7 +46,15 @@
               ><img src="../assets/images/search.png" width="100px"
             /></router-link>
           </li>
-          <li><img src="../assets/images/add.png" width="100px" /></li>
+          <li>
+            <router-link
+              :to="{
+                path: '/teamFormation',
+                query: { userId: $route.query.userId }
+              }"
+              ><img src="../assets/images/add.png" width="100px"
+            /></router-link>
+          </li>
           <li>
             <router-link
               :to="{
@@ -75,12 +85,13 @@ export default {
     };
   },
   created() {
+    var userNickname = this.$route.query.userId;
     projs_base.get().then(snapshot => {
       snapshot.forEach(doc => {
         let proj = doc.data();
         proj.id = doc.id;
         // only display ongoing projects
-        if (proj.ongoing) {
+        if (proj.ongoing && !proj.members.includes(userNickname)) {
           this.projs.push(proj);
         }
       });

@@ -101,7 +101,6 @@ export default {
   created() {
     var projectName = this.$route.query.projName;
     var myName = this.$route.query.userId;
-    console.log(projectName);
     project_collection
       .doc(projectName)
       .get()
@@ -143,7 +142,7 @@ export default {
       userinfo_collection
         .doc(userName)
         .update({
-          best_num: best_num + 1
+          best_num: firebase.firestore.FieldValue.increment(1)
         })
         .then(() => {
           window.alert("voted!");

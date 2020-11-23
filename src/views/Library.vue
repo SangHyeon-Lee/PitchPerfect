@@ -134,8 +134,6 @@ export default {
   },
   created() {
     var userID = this.$route.query.userId;
-    console.log(userID);
-    // window.alert("HI");
     var userprojs_db = userprojs.doc(userID);
     userprojs_db
       .get()

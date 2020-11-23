@@ -83,15 +83,20 @@
           >
           </textarea>
           <br /><br />
-          <button
-            type="submit"
-            value="Submit"
-            style="background-color: gold; height: 60px; width: 150px"
-            class="button"
-            onclick="location.href = 'thankyou.html'"
-          >
-            Submit
-          </button>
+          
+          <router-link
+         style="background-color: gold; height: 60px; width: 150px"
+          class="button"
+          :to="{
+            path: '/thankyou',
+            query: {
+              userId: $route.query.userId,
+              projName: $route.query.projName
+            }
+          }"
+          tag="button"
+          >Submit
+        </router-link>
         </form>
         <router-link
           style="height: 60px; width: 150px"
@@ -104,7 +109,7 @@
             }
           }"
           tag="button"
-          >I'll do later
+          >I'll do it later
         </router-link>
 
         <br /><br /><br /><br />
