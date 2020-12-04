@@ -24,8 +24,8 @@
             path: '/choose_inst',
             query: {
               userId: $route.query.userId,
-              projName: $route.query.projName
-            }
+              projName: $route.query.projName,
+            },
           }"
           tag="button"
           >join</router-link
@@ -34,10 +34,20 @@
           <h2 style="margin-bottom: 0px; margin-top: 0px">
             {{ projInfo.song }}
           </h2>
-          <p style="color: black; margin-top: 10px; margin-bottom: 10px">
-            {{ projInfo.parts }}
-          </p>
-          <a class="tag">{{ projInfo.level }}</a>
+          <dl >
+            <dt v-for="index in inst_name.length" :key="index">
+              <h5 style="color: black">
+                {{
+                  inst_name[index - 1] +
+                  " " +
+                  left_num[index - 1] +
+                  "/" +
+                  max_num[index - 1]
+                }}
+              </h5>
+            </dt>
+          </dl>
+          <br><a class="tag" >{{ projInfo.level }}</a>
         </div>
         <h3 style="margin: 20px">
           {{ projInfo.blurb }}
@@ -54,12 +64,12 @@
                 path: '/profile',
                 query: {
                   userId: $route.query.userId,
-                  profileId: member[0]
-                }
+                  profileId: member[0],
+                },
               }"
               ><img :src="member[1]" width="70px" />
             </router-link>
-            <label class="member_label" for="member" style="color: black" > 
+            <label class="member_label" for="member" style="color: black">
               <pre class="pre">{{ member[0] }}</pre>
             </label>
           </li>
@@ -80,7 +90,7 @@
             <router-link
               :to="{
                 path: '/projects_page',
-                query: { userId: $route.query.userId }
+                query: { userId: $route.query.userId },
               }"
               ><img src="../assets/images/search.png" width="100px"
             /></router-link>
@@ -91,8 +101,8 @@
                 path: '/teamFormation',
                 query: {
                   userId: $route.query.userId,
-                  profileId: $route.query.userId
-                }
+                  profileId: $route.query.userId,
+                },
               }"
               ><img src="../assets/images/add.png" width="100px"
             /></router-link>
@@ -103,8 +113,8 @@
                 path: '/profile',
                 query: {
                   userId: $route.query.userId,
-                  profileId: $route.query.userId
-                }
+                  profileId: $route.query.userId,
+                },
               }"
               ><img src="../assets/images/profile.png" width="100px"
             /></router-link>
@@ -131,38 +141,79 @@ export default {
         level: "",
         blurb: "",
         members: [],
-        ongoing: false
+        left_inst: [],
+        max_inst: [],
+        parts: [],
+        ongoing: false,
       },
       userinfo: {
         name: "",
-        image_url: ""
+        image_url: "",
       },
-      members_url: []
+      members_url: [],
+      inst_name: [], // ex) [Violin, Viola, Cello]
+      max_num: [], // ex) [4, 4, 2]
+      left_num: [], // ex) [3, 3, 1] : current number of members
     };
   },
   created() {
     var projectName = this.$route.query.projName;
-
+    var inst_name = this.inst_name;
+    var max_num = this.max_num;
+    var left_num = this.left_num;
     project_collection
       .doc(projectName)
       .get()
-      .then(doc => {
+      .then((doc) => {
         if (doc.exists) {
           let pi = doc.data();
           this.projInfo = pi;
+
+          var left_inst = this.projInfo.left_inst;
+          var max_inst = this.projInfo.max_inst;
+          var step;
+          var curr = max_inst[0];
+          var num = 1;
+
+          // Count max_num and left_num
+          for (step = 1; step < max_inst.length; step++) {
+            if (curr == max_inst[step]) {
+              num++;
+            } else {
+              inst_name.push(curr);
+              max_num.push(num);
+              curr = max_inst[step];
+              num = 1;
+            }
+            if (step == max_inst.length - 1) {
+              inst_name.push(curr);
+              max_num.push(num);
+            }
+          }
+
+          inst_name.forEach(function (inst) {
+            var num2 = 0;
+            for (step = 0; step < left_inst.length; step++) {
+              if (inst == left_inst[step]) {
+                num2++;
+              }
+            }
+            left_num.push(num2);
+          });
+
           var i;
           for (i = 0; i < this.projInfo.members.length; i++) {
             userinfo_collection
               .doc(this.projInfo.members[i])
               .get()
-              .then(doc_user => {
+              .then((doc_user) => {
                 if (doc_user.exists) {
                   let user = doc_user.data();
                   this.userinfo = user;
                   this.members_url.push([
                     this.userinfo.name,
                     this.userinfo.image_url,
-                    this.userinfo.best_num
+                    this.userinfo.best_num,
                   ]);
                 }
               });
@@ -171,35 +222,34 @@ export default {
           window.alert("ERROR: No such project exist!");
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log("Error retrieving project info: ", error);
       });
   },
   methods: {
     send() {
-
       var userID = this.$route.query.userId;
       var projName = this.$route.query.projName;
       project_collection
         .doc(projName)
         .update({
-          members: firebase.firestore.FieldValue.arrayUnion(userID)
+          members: firebase.firestore.FieldValue.arrayUnion(userID),
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error("Error yee : ", error);
         });
       userinfo_collection
         .doc(userID)
         .update({
-          projs: firebase.firestore.FieldValue.arrayUnion(projName)
+          projs: firebase.firestore.FieldValue.arrayUnion(projName),
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error("Error yee : ", error);
         });
     },
     toBack() {
       this.$router.go(-1);
-    }
-  }
+    },
+  },
 };
 </script>

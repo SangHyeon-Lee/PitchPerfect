@@ -54,6 +54,7 @@ export default {
       inst_name: [], // ex) [Violin, Viola, Cello]
       max_num: [], // ex) [4, 4, 2]
       left_num: [], // ex) [3, 3, 1] : current number of members
+      parts: []
     };
   },
   created() {
@@ -61,6 +62,7 @@ export default {
     var inst_name = this.inst_name;
     var max_num = this.max_num;
     var left_num = this.left_num;
+    var parts = this.parts;
     project_collection
       .doc(projectName)
       .get()
@@ -99,16 +101,15 @@ export default {
             }
             left_num.push(num2);
           });
+
         } else {
           window.alert("ERROR: No such project exist!");
         }
+        console.log(parts);
       })
       .catch(function (error) {
         console.log("Error retrieving project info: ", error);
       });
-  },
-  retreat() {
-    this.$router.go(-1);
   },
   methods: {
     send(index) {
@@ -122,6 +123,7 @@ export default {
           .doc(projectName)
           .update({
             left_inst: newarray,
+            parts: this.parts
           })
           .catch(function (error) {
             console.error("Error yee : ", error);
@@ -139,6 +141,11 @@ export default {
         });
       }
     },
+    retreat() {
+      this.$router.go(-1);
+    },
+
   },
+
 };
 </script>
