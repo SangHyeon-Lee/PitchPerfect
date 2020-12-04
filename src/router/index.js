@@ -146,6 +146,14 @@ const routes = [
       import(
         /* webpackChunkName: "teamFormation" */ "../views/teamFormation.vue"
       )
+  },
+  {
+    path: "/choose_inst",
+    name: "choose_inst",
+    component: () =>
+      import(
+        /* webpackChunkName: "choose_inst" */ "../views/Choose_inst.vue"
+      )
   }
 ];
 

@@ -21,7 +21,7 @@
           style="background-color: #f2c94c; margin: 20px"
           v-on:click.native="send"
           :to="{
-            path: '/project_main',
+            path: '/choose_inst',
             query: {
               userId: $route.query.userId,
               projName: $route.query.projName

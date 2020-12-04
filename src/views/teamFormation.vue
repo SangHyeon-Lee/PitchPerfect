@@ -8,7 +8,7 @@
           <input
             type="text"
             style="width: 230px"
-            placeholder="Team Name (You cannot use &quot;/&quot;)"
+            placeholder='Team Name (You cannot use "/")'
             name="teamname"
             v-model="teamInfo.team"
             required
@@ -49,15 +49,44 @@
             /> -->
           <br />
           <h3>Required Parts of Music</h3>
-          <input
-            type="text"
-            placeholder="required parts ex. piano 0/1 vocal 1/2"
-            name="parts"
-            v-model="teamInfo.parts"
-            required
-          />
+          <h4>&#8251;Please don't leave blank input!</h4>
+          <h4>You should reduce the screen</h4>
+          <dl>
+            <dt v-for="index in part_num" :key="index">
+              <input
+                type="text"
+                placeholder="required part"
+                style="width: 220px"
+                name="parts"
+                v-model="teamInfo.instruments[index]"
+                required
+              />
+              <input
+                type="number"
+                style="width: 50px"
+                v-model="teamInfo.inst_num[index]"
+                name="num"
+                required
+              />
+            </dt>
+          </dl>
+          <button
+            class="redbutton"
+            style="width: 300px"
+            @click="add_instrument"
+          >
+            Click to add more instruments!
+          </button>
+          <button
+            class="copy_button"
+            style="width: 300px"
+            @click="reduce_instrument"
+          >
+            Click to reduce the screen!
+          </button>
 
           <h3>Expected proficiency of teammates</h3>
+
           <input
             type="radio"
             v-model="teamInfo.level"
@@ -112,7 +141,10 @@ export default {
         level: "",
         blurb: "",
         ongoing: true,
+        instruments: [],
+        inst_num: [],
       },
+      part_num: 4,
       image_url: "images/music_sheet.png",
       db_image_url: "",
       base64_url: "",
@@ -131,16 +163,21 @@ export default {
         }
       });
     },
-    createbase64(file){
+    add_instrument() {
+      this.part_num = this.part_num + 1;
+    },
+    reduce_instrument() {
+      this.part_num = this.part_num - 1;
+    },
+    createbase64(file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.base64_url = e.target.result;
-      }
+      };
       reader.readAsDataURL(file);
     },
     send_annotate() {
       console.log("hi");
-      
 
       var userName = this.$route.query.userId;
       var teamName = this.teamInfo.team;
@@ -156,8 +193,6 @@ export default {
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       const dateTime = date + " " + time;
       const timestamp = dateTime;
-      
-      
 
       console.log("gimottttti", this.base64_url, timestamp);
       annotate
@@ -168,7 +203,7 @@ export default {
         })
         .then(() => {
           this.$router.push({
-            path: "/project_main",
+            path: "/choose_inst",
             query: { userId: userName, projName: teamName },
           });
         })
@@ -186,8 +221,18 @@ export default {
       var teamdb = firebase.firestore().collection("projects");
       var threadb = firebase.firestore().collection("threads");
       var userinfo_collection = firebase.firestore().collection("userinfo");
-      var threads = [ teamName+"0", teamName+"1", teamName+"2"];
-      /* get timestamp */
+      var threads = [teamName + "0", teamName + "1", teamName + "2"];
+      var inst = this.teamInfo.instruments;
+      var inst_num = this.teamInfo.inst_num;
+      var max_inst = [];
+
+      var step;
+      var step2;
+      for (step = 0; step < inst.length; step++) {
+        for (step2 = 0; step2 < inst_num[step]; step2++) {
+          max_inst.push(inst[step]);
+        }
+      }
 
       firestorage
         .ref(this.image_url)
@@ -208,6 +253,8 @@ export default {
               announcements: "",
               ongoing: true,
               threads: threads,
+              max_inst: max_inst,
+              left_inst: [],
             })
             .then(() => {
               window.alert("You made new team!");
@@ -215,7 +262,7 @@ export default {
             .catch(function (error) {
               console.error("Error yee : ", error);
             });
-            
+
           for (var i = 0; i < 3; i++) {
             threadb.doc(teamName + i).set({
               clientX: 400,
@@ -223,7 +270,7 @@ export default {
               users: [],
               comments: [],
               pinid: i,
-            })
+            });
           }
 
           userinfo_collection
@@ -254,7 +301,7 @@ export default {
     imageUpload(e) {
       console.log(this.$refs.uploadInput);
       var filelist = e.target.files || e.dataTransfer.files;
-      
+
       Array.from(Array(filelist.length).keys()).map((x) => {
         this.createbase64(filelist[x]);
         this.upload_file(filelist[x]);
