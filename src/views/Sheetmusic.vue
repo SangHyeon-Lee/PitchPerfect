@@ -52,18 +52,20 @@
           </p>
         </Moveable>
       </div>
-      <div class="content_project" align="center" style="padding-top:5px;">
-        <p><b>📌 Movable Pins!</b><br>
-        Move your pin around by dragging on the pin image.<br>
-        View the connected comment thread by clicking the "view" text.</p>
+      <div class="content_project" align="center" style="padding-top: 5px">
+        <p>
+          <b>📌 Movable Pins!</b><br />
+          Move your pin around by dragging on the pin image.<br />
+          View the connected comment thread by clicking the "view" text.
+        </p>
         <!--sheet music-->
         <img
           :src="projData.sheet_music_url"
-          style="width: 480px; margin-top: 10px; margin-bottom:20px"
+          style="width: 480px; margin-top: 10px; margin-bottom: 20px"
           title="music sheet"
         />
         <!--menu bar-->
-        <ul class="menubar" style="margin-bottom:20px">
+        <ul class="menubar" style="margin-bottom: 20px">
           <li>
             <router-link
               class="button"
@@ -190,7 +192,7 @@ export default {
                   clientY: d.clientY,
                 });
                 console.log("d.pinid: ", d);
-                this.$refs[d.pinid].style.left = d.clientX+ "px";
+                this.$refs[d.pinid].style.left = d.clientX + "px";
                 this.$refs[d.pinid].style.top = d.clientY + "px";
               })
               .catch(function (error) {
@@ -267,8 +269,7 @@ export default {
         .update({
           // add minor adjustments for difference between clientX,clientY(moveable) and left,right(css)
           // subtract left value of body for relative positioning
-          clientX:
-            clientX - this.$refs["body"].getBoundingClientRect().left,
+          clientX: clientX - this.$refs["body"].getBoundingClientRect().left,
           clientY: clientY,
         })
         .then(() => {

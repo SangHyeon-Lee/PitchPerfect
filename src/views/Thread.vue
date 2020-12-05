@@ -13,6 +13,7 @@
               <p>
                 <b>{{ comment.user }}</b
                 >: {{ comment.comment }}
+    
               </p>
             </li>
             <span v-if="comments.length === 0"> &lt;empty&gt; </span>
@@ -38,7 +39,7 @@
             >
               Submit Comment
             </button>
-            <p style="margin-left:20px">Please press "back" and reenter this page to view newly submitted comment.</p>
+           
           </form>
         </div>
         <br /><br /><br /><br />
@@ -81,6 +82,7 @@ export default {
         var d = doc.data();
         let users = d.users;
         let comments = d.comments;
+        let comments_like = d.comments_like;
         this.origusers = users;
         this.origcomments = comments;
         for (var i = 0; i < users.length; i++) {
@@ -102,15 +104,24 @@ export default {
       let threadID = projName + threadNum;
       var newusers = this.origusers;
       var newcomments = this.origcomments;
+ 
       newusers.push(userName);
       newcomments.push(this.newcomment);
+
       console.log("threadID:", threadID);
+
+      this.comments.push({
+        user: userName,
+        comment: this.newcomment,
+      });
+
       threadInfo.doc(threadID).update({
         users: newusers,
         comments: newcomments,
       });
       console.log("comment submitted!");
     },
+    
   },
 };
 </script>

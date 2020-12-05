@@ -35,7 +35,7 @@
             {{ projInfo.song }}
           </h2>
           <dl >
-            <dt v-for="index in inst_name.length" :key="index" style="display:inline">
+            <dt v-for="index in inst_name.length" :key="index" style="display:inline;">
               <h5 style="color: black; display:inline">
                 {{
                   inst_name[index - 1] +

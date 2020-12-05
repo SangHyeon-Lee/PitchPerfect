@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Main from "../views/Main.vue";
 import Vuex from "vuex";
+
 Vue.use(Vuex);
 
 const store = new Vuex.Store({

@@ -16,7 +16,7 @@
             <h2 class="project_text">{{ ongoing_projects[index-1].team }}</h2>
             <h3 class="project_text">{{ ongoing_projects[index-1].song }}</h3>
             <dl>
-              <dt v-for="index2 in inst_name[index-1].length" :key="index2" style="display:inline">
+              <dt v-for="index2 in inst_name[index-1].length" :key="index2" style="display:inline;">
                 <!-- <div> -->
                 <h5 style="color: black;display:inline">
                   {{
@@ -62,8 +62,8 @@
           >
             <h2 class="project_text">{{ previous_projects[index-1].team }}</h2>
             <h3 class="project_text">{{ previous_projects[index-1].song }}</h3>
-            <dl>
-              <dt v-for="index2 in inst_name[index-1].length" :key="index2" style="display:inline">
+            <dl style="margin-left:10px">
+              <dt v-for="index2 in pre_inst_name[index-1].length" :key="index2" style="display:inline;">
                 <!-- <div> -->
                 <h5 style="color: black; display: inline" >
                   {{
@@ -91,7 +91,7 @@
         <router-link
           class="backbutton"
           to="/"
-          style="color: white; background-color: gray"
+          style="color:white; background-color:gray"
           tag="button"
         >
           logout

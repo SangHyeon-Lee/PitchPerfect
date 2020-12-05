@@ -3,7 +3,6 @@
     <body>
       <div class="content" align="center">
         <h1>Register a team!</h1>
-
         <form @submit.prevent="check_password" class="modal-content">
           <input
             type="text"
@@ -50,7 +49,7 @@
           <br />
           <h3>Required Parts of Music</h3>
           <h4>&#8251;Please don't leave blank input!</h4>
-          <h4>You should reduce the screen</h4>
+          <p>If you have blank instrument fields,<br>please click the yellow button below to get rid of them.</p>
           <dl>
             <dt v-for="index in part_num" :key="index">
               <input
@@ -82,7 +81,7 @@
             style="width: 300px"
             @click="reduce_instrument"
           >
-            Click to reduce the screen!
+            Click to remove blank fields
           </button>
 
           <h3>Expected proficiency of teammates</h3>
@@ -144,7 +143,7 @@ export default {
         instruments: [],
         inst_num: [],
       },
-      part_num: 4,
+      part_num: 1,
       image_url: "images/music_sheet.png",
       db_image_url: "",
       base64_url: "",
@@ -239,7 +238,7 @@ export default {
         .getDownloadURL()
         .then((url) => {
           this.db_image_url = url;
-          console.log("dbddd: ", url);
+
           teamdb
             .doc(teamName)
             .set({
@@ -250,7 +249,7 @@ export default {
               blurb: blurb,
               sheet_music_url: this.base64_url,
               members: [userName],
-              announcements: "",
+              announcements: ["Practice!!!!"],
               ongoing: true,
               threads: threads,
               max_inst: max_inst,
