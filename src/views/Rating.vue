@@ -87,7 +87,7 @@
             }
           }"
           tag="button"
-          >Home
+          >End
         </router-link>
 
         <br /><br />

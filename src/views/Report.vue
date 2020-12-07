@@ -51,7 +51,7 @@
             class="button"
             style="background-color: gold; height: 60px; width: 150px"
             :to="{
-              path: '/thankyou',
+              path: '/endcollaboration',
               query: {
                 userId: $route.query.userId,
                 projName: $route.query.projName

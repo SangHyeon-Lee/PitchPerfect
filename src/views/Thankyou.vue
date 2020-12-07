@@ -20,7 +20,7 @@
             }"
             tag="button"
           >
-            Home
+            End
           </router-link>
         </form>
       </div>
