@@ -101,32 +101,36 @@ x <template>
           </button>
 
           <!-- #2 : Modal Window -->
-          <div style="text-align:justified;" v-show="is_show">
+          <div style="text-align: justified" v-show="is_show">
             <p>
-              🐣<b>Level1: Beginner</b> 
-              <br> you have no previous experience,
+              🐣<b>Level1: Beginner</b> <br />
+              you have no previous experience,
               <br />
-              or you know how to play some simple tunes. 
-              <br /> You may not feel confident yet, but you love the music 
-              <br>that your
-              instrument can make!
+              or you know how to play some simple tunes.
               <br />
-              🐥<b>Level2: Solo player</b>
-              <br> You can play some pieces of music,
+              You may not feel confident yet, but you love the music <br />that
+              your instrument can make!
               <br />
-              but you have a few previous  
-              <br> collaboration experiences with others.
+              🐥<b>Level2: Solo player</b> <br />
+              You can play some pieces of music,
               <br />
-              🐦<b>Level3: Collaborator</b> 
-              <br> You can play some pieces of music 
-              <br> (and you feel pretty confident), 
-              <br> and you have several collaboration
-              experiences!
+              but you have a few previous
+              <br />
+              collaboration experiences with others.
+              <br />
+              🐦<b>Level3: Collaborator</b> <br />
+              You can play some pieces of music <br />
+              (and you feel pretty confident), <br />
+              and you have several collaboration experiences!
             </p>
           </div>
 
           <br /><br />
-          <button class="redbutton" style="width: 300px" @click="not_implemented">
+          <button
+            class="redbutton"
+            style="width: 300px"
+            @click="not_implemented"
+          >
             Click to add instruments
           </button>
 
@@ -157,7 +161,11 @@ x <template>
             v-model="userData.tag3"
             required
           />
-          <button class="redbutton" style="width: 300px" @click="not_implemented">
+          <button
+            class="redbutton"
+            style="width: 300px"
+            @click="not_implemented"
+          >
             Click to add more tags
           </button>
           <br /><br /><br />
@@ -194,9 +202,10 @@ export default {
         tag2: "",
         tag3: "",
       },
-      image_url: "../assets/images/fyeesh.png",
+      image_url: "images/fyeesh.png",
       is_show: false,
       uploaded: false,
+      verified: false,
     };
   },
   methods: {
@@ -210,6 +219,7 @@ export default {
         if (docSnapshot.exists) {
           window.alert("Username Already Exists!");
         } else {
+          this.verified = true;
           window.alert("Valid Username");
         }
       });
@@ -267,12 +277,16 @@ export default {
       console.log("submitted!");
     },
     check_password: function () {
-      var password = this.userData.password;
-      var password_check = this.userData.password_check;
-      if (password != password_check) {
-        window.alert("Passwords are different!");
+      if (!this.verified) {
+        window.alert("Please verify your Username!");
       } else {
-        this.login();
+        var password = this.userData.password;
+        var password_check = this.userData.password_check;
+        if (password != password_check) {
+          window.alert("Passwords are different!");
+        } else {
+          this.login();
+        }
       }
     },
     upload_file(file) {
@@ -287,8 +301,8 @@ export default {
       });
     },
     not_implemented() {
-    	window.alert("Feature not yet implemented :(")
-    }
+      window.alert("Feature not yet implemented :(");
+    },
   },
 };
 </script>

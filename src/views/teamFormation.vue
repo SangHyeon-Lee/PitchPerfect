@@ -49,7 +49,10 @@
           <br />
           <h3>Required Parts of Music</h3>
           <h4>&#8251;Please don't leave blank input!</h4>
-          <p>If you have blank instrument fields,<br>please click the yellow button below to get rid of them.</p>
+          <p>
+            If you have blank instrument fields,<br />please click the yellow
+            button below to get rid of them.
+          </p>
           <dl>
             <dt v-for="index in part_num" :key="index">
               <input
@@ -136,7 +139,6 @@ export default {
       teamInfo: {
         team: "",
         song: "",
-        parts: "",
         level: "",
         blurb: "",
         ongoing: true,
@@ -148,6 +150,7 @@ export default {
       db_image_url: "",
       base64_url: "",
       uploaded: false,
+      verified: false,
     };
   },
   methods: {
@@ -158,6 +161,7 @@ export default {
         if (docSnapshot.exists) {
           window.alert("Team name Already Exists!");
         } else {
+          this.verified = true;
           window.alert("Valid team name");
         }
       });
@@ -193,7 +197,6 @@ export default {
       const dateTime = date + " " + time;
       const timestamp = dateTime;
 
-      console.log("gimottttti", this.base64_url, timestamp);
       annotate
         .doc(teamName)
         .set({
@@ -244,12 +247,12 @@ export default {
             .set({
               team: teamName,
               song: song,
-              parts: parts,
+
               level: this.teamInfo.level,
               blurb: blurb,
               sheet_music_url: this.base64_url,
-              members: [userName],
-              announcements: ["Practice!!!!"],
+              members: [],
+              announcements: [],
               ongoing: true,
               threads: threads,
               max_inst: max_inst,
@@ -288,7 +291,11 @@ export default {
       console.log("submitted!");
     },
     check_password: function () {
-      this.login();
+      if (!this.verified) {
+        window.alert("Please verify your Teamname!");
+      } else {
+        this.login();
+      }
     },
     upload_file(file) {
       firestorage.ref("images/" + file.name).put(file);

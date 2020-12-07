@@ -155,6 +155,14 @@ const routes = [
       import(
         /* webpackChunkName: "choose_inst" */ "../views/Choose_inst.vue"
       )
+  },
+  {
+    path: "/project_summary_joined",
+    name: "project_summary_joined",
+    component: () =>
+      import(
+        /* webpackChunkName: "project_summary_joined" */ "../views/Project_summary_joined.vue"
+      )
   }
 ];
 

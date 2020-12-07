@@ -4,32 +4,7 @@
       <div class="content" align="center">
         <img src="../assets/images/fyeesh.png" width="100" />
         <h1 style="color: black; margin: 0px">{{ $route.query.projName }}</h1>
-        <!-- <a class="button" style="background-color: #f2c94c; margin: 20px"
-          >join</a
-        > -->
-        <!-- <button
-          id="app"
-          type="submit"
-          class="button"
-          style="background-color: #f2c94c; margin: 20px"
-          v-on:click="signin"
-        >
-        join_test
-        </button> -->
-        <router-link
-          class="button"
-          style="background-color: #f2c94c; margin: 20px"
-  
-          :to="{
-            path: '/choose_inst',
-            query: {
-              userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
-          }"
-          tag="button"
-          >join</router-link
-        >
+
         <div class="project_container">
           <h2 style="margin-bottom: 0px; margin-top: 0px">
             {{ projInfo.song }}

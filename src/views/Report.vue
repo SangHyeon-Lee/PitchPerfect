@@ -10,6 +10,7 @@
             style="font-size: 120%; text-align: left; line-height: 2"
             >Who do you want to report?</label
           >
+          <br />
           <ul
             v-for="member in members_url"
             v-bind:key="member.index"

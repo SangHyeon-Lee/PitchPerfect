@@ -68,36 +68,14 @@
             >
           </div>
         </div>
-        <form action="/action_page.php">
-          <label
-            for="review"
-            style="font-size: 200%; text-align: left; line-height: 2"
-            >Any comments on our application?</label
+          <a
+            class="music_submit_button"
+            style="width: 380px"
+            href="https://forms.gle/ze7FtEjNaYY7zRmj9"
           >
-          <textarea
-            id="review"
-            name="review"
-            rows="3"
-            cols="50"
-            style="text-align: left"
-          >
-          </textarea>
-          <br /><br />
-          
-          <router-link
-         style="background-color: gold; height: 60px; width: 150px"
-          class="button"
-          :to="{
-            path: '/thankyou',
-            query: {
-              userId: $route.query.userId,
-              projName: $route.query.projName
-            }
-          }"
-          tag="button"
-          >Submit
-        </router-link>
-        </form>
+            Complete the survey please🥰💗
+          </a>
+        <br> <br> <br> <br>
         <router-link
           style="height: 60px; width: 150px"
           class="button"
@@ -109,10 +87,10 @@
             }
           }"
           tag="button"
-          >I'll do it later
+          >Home
         </router-link>
 
-        <br /><br /><br /><br />
+        <br /><br />
         <router-link
           style="height: 40px; width: 100px; text-align: center"
           class="mini_button"

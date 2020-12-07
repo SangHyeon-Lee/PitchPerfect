@@ -35,14 +35,14 @@
 import { firestore } from "@/firebase";
 import { firestorage } from "@/firebase";
 var project_collection = firebase.firestore().collection("projects");
-
+var userinfo_collection = firebase.firestore().collection("userinfo");
 export default {
   data() {
     return {
       projInfo: {
         team: "",
         song: "",
-        parts: "",
+
         level: "",
         blurb: "",
         members: [],
@@ -54,7 +54,7 @@ export default {
       inst_name: [], // ex) [Violin, Viola, Cello]
       max_num: [], // ex) [4, 4, 2]
       left_num: [], // ex) [3, 3, 1] : current number of members
-      parts: []
+
     };
   },
   created() {
@@ -62,7 +62,9 @@ export default {
     var inst_name = this.inst_name;
     var max_num = this.max_num;
     var left_num = this.left_num;
-    var parts = this.parts;
+
+    console.log("hi");
+    
     project_collection
       .doc(projectName)
       .get()
@@ -75,7 +77,7 @@ export default {
           var step;
           var curr = max_inst[0];
           var num = 1;
-
+          console.log(max_inst);
           // Count max_num and left_num
           for (step = 1; step < max_inst.length; step++) {
             if (curr == max_inst[step]) {
@@ -91,6 +93,10 @@ export default {
               max_num.push(num);
             }
           }
+          if (max_inst.length == 1){
+            inst_name.push(curr);
+            max_num.push(num);
+          }
 
           inst_name.forEach(function (inst) {
             var num2 = 0;
@@ -105,7 +111,7 @@ export default {
         } else {
           window.alert("ERROR: No such project exist!");
         }
-        console.log(parts);
+        
       })
       .catch(function (error) {
         console.log("Error retrieving project info: ", error);
@@ -117,17 +123,26 @@ export default {
         window.alert("Sorry, you cannot choose this instrument, it is full :(");
       } else {
         var projectName = this.$route.query.projName;
+        var userID = this.$route.query.userId;
         var newarray = this.projInfo.left_inst;
         newarray.push(this.inst_name[index]);
         project_collection
           .doc(projectName)
           .update({
+            members: firebase.firestore.FieldValue.arrayUnion(userID),
             left_inst: newarray,
-            parts: this.parts
           })
           .catch(function (error) {
             console.error("Error yee : ", error);
           });
+        userinfo_collection
+        .doc(userID)
+        .update({
+          projs: firebase.firestore.FieldValue.arrayUnion(projectName),
+        })
+        .catch(function (error) {
+          console.error("Error yee : ", error);
+        });
         this.$router.push({
           path: "/project_main",
           query: {

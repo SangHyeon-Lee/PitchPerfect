@@ -8,7 +8,7 @@
           class="button"
           style="height: 70px; width: 400px"
           :to="{
-            path: '/project_summary',
+            path: '/project_summary_joined',
             query: {
               userId: $route.query.userId,
               projName: $route.query.projName,
@@ -30,7 +30,7 @@
           tag="button"
           >Sheet Music</router-link
         >
-        <!-- <button style="height:70px;width:400px" class="button" onclick = "location.href = '/sheetmusic.html'">Sheet Music</button> <br> -->
+
         <router-link
           class="button"
           style="height: 70px; width: 400px"
@@ -96,7 +96,6 @@
               type="submit"
               class="button"
               style="color: white; background-color: #f2c94c; width: auto"
-              
             >
               Post Announcement
             </button>
@@ -111,27 +110,30 @@
           tag="button"
           >asdf</router-link
         > -->
-        <a
-          class="music_submit_button"
-          v-on:click="show_instruction"
-          style="width: 380px"
-          href="https://cs473pitchperfect-my.sharepoint.com/:f:/g/personal/elianakim_cs473pitchperfect_onmicrosoft_com/EttkFl9TrLNKrSXENEIs-TgBcQAw8NVS0QK8124XMJEQwQ"
-        >
-          Submit Your Recordings
-        </a>
-        <router-link
-          class="button"
-          style="height: 70px; width: 400px"
-          :to="{
-            path: '/endcollaboration',
-            query: {
-              userId: $route.query.userId,
-              projName: $route.query.projName,
-            },
-          }"
-          tag="button"
-          >End Collaboration</router-link
-        >
+        <div v-if="projInfo.ongoing">
+          <a
+            class="music_submit_button"
+            v-on:click="show_instruction"
+            style="width: 380px"
+            href="https://cs473pitchperfect-my.sharepoint.com/:f:/g/personal/elianakim_cs473pitchperfect_onmicrosoft_com/EttkFl9TrLNKrSXENEIs-TgBcQAw8NVS0QK8124XMJEQwQ"
+          >
+            Submit Your Recordings
+          </a>
+
+          <router-link
+            class="button"
+            style="height: 70px; width: 400px"
+            :to="{
+              path: '/endcollaboration',
+              query: {
+                userId: $route.query.userId,
+                projName: $route.query.projName,
+              },
+            }"
+            tag="button"
+            >End Collaboration</router-link
+          >
+        </div>
         <!-- <button style="height:70px;width:400px" class="button" onclick = "location.href = '/endcollaboration.html'">End Collaboration</button> -->
       </div>
       <br /><br /><br /><br />
@@ -230,12 +232,16 @@ export default {
         var projectName = this.$route.query.projName;
         this.announcements.push(new_announcement);
         project_collection.doc(projectName).update({
-          announcements: firebase.firestore.FieldValue.arrayUnion(new_announcement)
+          announcements: firebase.firestore.FieldValue.arrayUnion(
+            new_announcement
+          ),
         });
       }
     },
     show_instruction() {
-      window.alert("hi");
+      window.alert(
+        "For 'First Name', please fill your 'team name'. For 'Last Name', please write down your 'nickname'."
+      );
     },
   },
 };

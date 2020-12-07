@@ -96,9 +96,16 @@
         >
           logout
         </router-link>
+      <a
+        class="music_submit_button"
+        style="width: 380px"
+        href="https://forms.gle/ze7FtEjNaYY7zRmj9"
+      >
+        Complete the survey please🥰💗
+      </a>
       </div>
-
-      <br /><br /><br /><br />
+      
+      <br /><br />
 
       <nav id="tabbar">
         <ul id="tab_wrap">
