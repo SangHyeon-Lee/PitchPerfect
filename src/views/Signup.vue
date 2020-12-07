@@ -44,14 +44,17 @@ x <template>
             required
           />
           <br /><br />
-          <h3>Upload Profile Image (mandatory)</h3>
+          <h3>Upload Profile Image</h3>
 
           <br />
-          <div v-if="!this.uploaded">
+          <div v-if="!uploaded">
+            <img src="../assets/images/fyeesh.png" width="120px" /> <br />
             <label for="files"> Upload Image (click!)</label>
+            
           </div>
           <div v-else>
-            <label for="files"> Uploaded!</label>
+            <img :src="profile_show" width="120px" /> <br />
+            <label for="files"> Uploaded!</label>           
           </div>
 
           <input
@@ -203,6 +206,7 @@ export default {
         tag3: "",
       },
       image_url: "images/fyeesh.png",
+      profile_show: "../assets/images/fyeesh.png",
       is_show: false,
       uploaded: false,
       verified: false,
@@ -290,7 +294,14 @@ export default {
       }
     },
     upload_file(file) {
-      firestorage.ref("images/" + file.name).put(file);
+      firestorage
+        .ref("images/" + file.name)
+        .put(file)
+        .snapshot.ref.getDownloadURL()
+        .then((downloadURL) => {
+          this.profile_show = downloadURL;
+          console.log(downloadURL);
+        });
       this.image_url = "images/" + file.name;
       this.uploaded = true;
     },

@@ -136,6 +136,10 @@ export default {
             max_num.push(num);
           }
         }
+        if (max_inst.length == 1){
+          inst_name.push(curr);
+          max_num.push(num);
+        }
 
         inst_name.forEach(function (inst) {
           var num2 = 0;
@@ -147,8 +151,9 @@ export default {
           left_num.push(num2);
         });
         // only display ongoing projects
+        console.log(max_num, left_num);
         if (proj.ongoing && !proj.members.includes(userNickname)) {
-          if (max_num != left_num) {
+          if (max_num.toString()!==left_num.toString()) {
             this.projs.push(proj);
             this.inst_name.push(inst_name);
             this.max_num.push(max_num);

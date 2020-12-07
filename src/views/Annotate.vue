@@ -1,6 +1,6 @@
 <template>
   <body>
-    <h2 style="color:white">🐟Image Editor🐟</h2>
+    <h2 style="color: white">🐟Image Editor🐟</h2>
     <tui-image-editor
       ref="tuiImageEditor"
       style="height: 1000px; width: 500px"
@@ -32,7 +32,7 @@ var project_db = firebase.firestore().collection("projects");
 var mySheetMusic = "";
 export default {
   components: {
-    "tui-image-editor": ImageEditor
+    "tui-image-editor": ImageEditor,
   },
   data() {
     return {
@@ -41,23 +41,23 @@ export default {
         includeUI: {
           loadImage: {
             path: mySheetMusic,
-            name: "sheetmusic"
+            name: "sheetmusic",
           },
           initMenu: "draw",
           menu: ["draw", "shape", "icon", "text"],
           uiSize: {
             width: "700px",
-            height: "650px"
+            height: "650px",
           },
-          menuBarPosition: "left"
+          menuBarPosition: "left",
         },
         // for tui-image-editor component's "options" prop
         usageStatistics: false,
-        cssMaxWidth: 500
+        cssMaxWidth: 500,
       },
       projData: {
-        sheet_music_url: ""
-      }
+        sheet_music_url: "",
+      },
     };
   },
   created() {
@@ -67,7 +67,7 @@ export default {
     project_db
       .doc(projName)
       .get()
-      .then(doc => {
+      .then((doc) => {
         if (doc.exists) {
           let ui = doc.data();
           this.projData = ui;
@@ -76,7 +76,7 @@ export default {
           window.alert("hing");
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log("Error retrieving user info: ", error);
       });
   },
@@ -102,9 +102,9 @@ export default {
     },
     exportImage() {
       var projectName = this.$route.query.projName;
-      
+
       const save = this.$refs.tuiImageEditor.invoke("toDataURL");
-      console.log(save);
+      
       /* get timestamp */
       const today = new Date();
       const date =
@@ -117,23 +117,32 @@ export default {
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       const dateTime = date + " " + time;
       const timestamp = dateTime;
-      console.log(timestamp);
-       // memory hing sibal TT
-      project_collection.doc(projectName)
+      
+      // memory hing sibal TT
+      project_collection
+        .doc(projectName)
         .update({
           // url: firebase.firestore.FieldValue.arrayUnion(save),
-          timestamp: firebase.firestore.FieldValue.arrayUnion(timestamp)
+          timestamp: firebase.firestore.FieldValue.arrayUnion(timestamp),
         })
         .then(() => {
           window.alert("saved!");
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error("Error yee : ", error);
         });
       //projects db
-      project_db.doc(projectName).update({
-        sheet_music_url: save
-      });
+      project_db
+        .doc(projectName)
+        .update({
+          sheet_music_url: save,
+        })
+        .then(() => {
+          window.alert("saved!");
+        })
+        .catch(function (error) {
+          console.error("Error yee : ", error);
+        });
       this.$router.go(-1);
     },
     retreat() {
@@ -145,8 +154,8 @@ export default {
         // Save it!
         this.$router.go(-1);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

@@ -223,7 +223,7 @@ export default {
       var teamdb = firebase.firestore().collection("projects");
       var threadb = firebase.firestore().collection("threads");
       var userinfo_collection = firebase.firestore().collection("userinfo");
-      var threads = [teamName + "0", teamName + "1", teamName + "2"];
+      var threads = [teamName + "0", teamName + "1", teamName + "2", teamName + "3", teamName + "4"];
       var inst = this.teamInfo.instruments;
       var inst_num = this.teamInfo.inst_num;
       var max_inst = [];
@@ -265,7 +265,7 @@ export default {
               console.error("Error yee : ", error);
             });
 
-          for (var i = 0; i < 3; i++) {
+          for (var i = 0; i < 5; i++) {
             threadb.doc(teamName + i).set({
               clientX: 400,
               clientY: 120,

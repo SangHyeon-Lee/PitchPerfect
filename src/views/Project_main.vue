@@ -76,7 +76,7 @@
         <div class="box">
           <h3 style="color: black; text-align: left">Announcements</h3>
           <!-- <div class="members" align="left" id="members"></div> -->
-          <ul>
+          <ul style="color: black">
             <li v-for="announcement in announcements" v-bind:key="announcement">
               <h4 style="color: black; text-align: left">
                 {{ announcement }}

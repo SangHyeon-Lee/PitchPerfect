@@ -52,6 +52,40 @@
           </p>
         </Moveable>
       </div>
+      <div ref="3" class="pinicon">
+        <Moveable
+          ref="3"
+          v-bind="threads[3]"
+          @drag="handleDrag"
+          @dragEnd="handleDragEnd"
+        >
+          <div id="3"></div>
+          <img src="../assets/images/pin.png" style="width: 30px" />
+          <p
+            style="color: black; margin-top: 0px"
+            @click.stop="view(threads[3].pinid)"
+          >
+            view #3
+          </p>
+        </Moveable>
+      </div>
+      <div ref="4" class="pinicon">
+        <Moveable
+          ref="4"
+          v-bind="threads[4]"
+          @drag="handleDrag"
+          @dragEnd="handleDragEnd"
+        >
+          <div id="4"></div>
+          <img src="../assets/images/pin.png" style="width: 30px" />
+          <p
+            style="color: black; margin-top: 0px"
+            @click.stop="view(threads[4].pinid)"
+          >
+            view #4
+          </p>
+        </Moveable>
+      </div>
       <div class="content_project" align="center" style="padding-top: 5px">
         <p>
           <b>📌 Movable Pins!</b><br />
@@ -95,8 +129,8 @@
               }"
               tag="button"
               ><img
-                src="../assets/images/announcement.png"
-                title="view announcements"
+                src="../assets/images/pin_big.png"
+                title="view all threads"
                 width="100px"
             /></router-link>
           </li>
@@ -270,7 +304,7 @@ export default {
           // add minor adjustments for difference between clientX,clientY(moveable) and left,right(css)
           // subtract left value of body for relative positioning
           clientX: clientX - this.$refs["body"].getBoundingClientRect().left,
-          clientY: clientY,
+          clientY: clientY - this.$refs["body"].getBoundingClientRect().top,
         })
         .then(() => {
           console.log("Saving coordinates successful!");

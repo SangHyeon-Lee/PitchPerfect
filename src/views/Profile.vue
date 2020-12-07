@@ -68,6 +68,7 @@
           </li>
           <span v-if="previous_projects.length === 0"> &lt;empty&gt; </span>
         </ul>
+        <button class="backbutton" v-on:click="toBack">Back</button>
         <br /><br /><br /><br /><br /><br />
       </div>
       <nav id="tabbar">
@@ -221,7 +222,7 @@ export default {
       var userNickname = this.$route.query.userId;
       var teamName = team;
       this.$router.push({
-        path: "/project_main",
+        path: "/project_summary_joined",
         query: { userId: userNickname, projName: teamName },
         params: { userId: userNickname, projName: teamName }
       });
@@ -233,6 +234,9 @@ export default {
         params: { userId: userNickname, profileId: userNickname }
       });
       this.$router.go(0);
+    },
+    toBack() {
+      this.$router.go(-1);
     }
   }
 };
