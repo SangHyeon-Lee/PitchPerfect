@@ -254,6 +254,7 @@ export default {
               instrument: instrument,
               bio: bio,
               projs: [],
+              projs_end: [],
               image_url: url,
               level: this.userData.level,
               tag1: tag1,

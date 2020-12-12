@@ -110,7 +110,7 @@
           tag="button"
           >asdf</router-link
         > -->
-        <div v-if="projInfo.ongoing">
+        <div v-if="ongoing">
           <a
             class="music_submit_button"
             v-on:click="show_instruction"
@@ -197,9 +197,11 @@ export default {
         level: "",
         blurb: "",
         members: [],
-        ongoing: false,
+        projs_end: [],
+        ongoing: true,
         announcements: [],
       },
+      ongoing: true,
       announcements: [],
       new_announcement: "",
     };
@@ -214,6 +216,12 @@ export default {
         if (doc.exists) {
           let pi = doc.data();
           this.projInfo = pi;
+          if (this.projInfo.projs_end.includes(projectName)) {
+            this.ongoing = false;
+          } else {
+            this.ongoing = true;
+          }
+
           this.announcements = this.projInfo.announcements;
         } else {
           window.alert("ERROR: No such project exist!");

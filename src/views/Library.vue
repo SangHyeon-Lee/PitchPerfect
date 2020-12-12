@@ -13,27 +13,31 @@
             class="project_container"
             v-bind:key="index"
           >
-            <h2 class="project_text">{{ ongoing_projects[index-1].team }}</h2>
-            <h3 class="project_text">{{ ongoing_projects[index-1].song }}</h3>
+            <h2 class="project_text">{{ ongoing_projects[index - 1].team }}</h2>
+            <h3 class="project_text">{{ ongoing_projects[index - 1].song }}</h3>
             <dl>
-              <dt v-for="index2 in inst_name[index-1].length" :key="index2" style="display:inline;">
+              <dt
+                v-for="index2 in inst_name[index - 1].length"
+                :key="index2"
+                style="display: inline"
+              >
                 <!-- <div> -->
-                <h5 style="color: black;display:inline">
+                <h5 style="color: black; display: inline">
                   {{
-                    inst_name[index-1][index2-1] +
+                    inst_name[index - 1][index2 - 1] +
                     " " +
-                    left_num[index-1][index2-1] +
+                    left_num[index - 1][index2 - 1] +
                     "/" +
-                    max_num[index-1][index2-1]
+                    max_num[index - 1][index2 - 1]
                   }}
                 </h5>
               </dt>
             </dl>
-            <a class="tag">{{ ongoing_projects[index-1].level }}</a>
+            <a class="tag">{{ ongoing_projects[index - 1].level }}</a>
             <button
               class="button"
               style="background-color: #f2c94c"
-              @click.stop="view(ongoing_projects[index-1].team)"
+              @click.stop="view(ongoing_projects[index - 1].team)"
             >
               view
             </button>
@@ -60,27 +64,35 @@
             class="project_container"
             v-bind:key="index"
           >
-            <h2 class="project_text">{{ previous_projects[index-1].team }}</h2>
-            <h3 class="project_text">{{ previous_projects[index-1].song }}</h3>
-            <dl style="margin-left:10px">
-              <dt v-for="index2 in pre_inst_name[index-1].length" :key="index2" style="display:inline;">
+            <h2 class="project_text">
+              {{ previous_projects[index - 1].team }}
+            </h2>
+            <h3 class="project_text">
+              {{ previous_projects[index - 1].song }}
+            </h3>
+            <dl style="margin-left: 10px">
+              <dt
+                v-for="index2 in pre_inst_name[index - 1].length"
+                :key="index2"
+                style="display: inline"
+              >
                 <!-- <div> -->
-                <h5 style="color: black; display: inline" >
+                <h5 style="color: black; display: inline">
                   {{
-                    pre_inst_name[index-1][index2-1] +
+                    pre_inst_name[index - 1][index2 - 1] +
                     " " +
-                    pre_left_num[index-1][index2-1] +
+                    pre_left_num[index - 1][index2 - 1] +
                     "/" +
-                    pre_max_num[index-1][index2-1]
+                    pre_max_num[index - 1][index2 - 1]
                   }}
                 </h5>
               </dt>
             </dl>
-            <a class="tag">{{ previous_projects[index-1].level }}</a>
+            <a class="tag">{{ previous_projects[index - 1].level }}</a>
             <button
               class="button"
               style="background-color: #f2c94c"
-              @click.stop="view(previous_projects[index-1].team)"
+              @click.stop="view(previous_projects[index - 1].team)"
             >
               view
             </button>
@@ -91,20 +103,20 @@
         <router-link
           class="backbutton"
           to="/"
-          style="color:white; background-color:gray"
+          style="color: white; background-color: gray"
           tag="button"
         >
           logout
         </router-link>
-      <a
-        class="music_submit_button"
-        style="width: 380px"
-        href="https://forms.gle/ze7FtEjNaYY7zRmj9"
-      >
-        Complete the survey please🥰💗
-      </a>
+        <a
+          class="music_submit_button"
+          style="width: 380px"
+          href="https://forms.gle/ze7FtEjNaYY7zRmj9"
+        >
+          Complete the survey please🥰💗
+        </a>
       </div>
-      
+
       <br /><br />
 
       <nav id="tabbar">
@@ -174,6 +186,7 @@ export default {
       .get()
       .then((doc) => {
         var my_projs = doc.data().projs;
+        var my_projs_end = doc.data().projs_end;
         var i;
         for (i = 0; i < my_projs.length; i++) {
           var proj_entry = projects.doc(my_projs[i]);
@@ -215,19 +228,22 @@ export default {
               }
               left_num.push(num2);
             });
-            if (project_data.ongoing) {
-              this.ongoing_projects.push(project_data);
-              this.inst_name.push(inst_name);
-              this.max_num.push(max_num);
-              this.left_num.push(left_num);
-            } else {
+            if (my_projs_end.includes(project_data.team)) {
               this.previous_projects.push(project_data);
               this.pre_inst_name.push(inst_name);
               this.pre_max_num.push(max_num);
               this.pre_left_num.push(left_num);
+            } else {
+              this.ongoing_projects.push(project_data);
+              this.inst_name.push(inst_name);
+              this.max_num.push(max_num);
+              this.left_num.push(left_num);
             }
           });
         }
+
+        
+
         console.log(this.ongoing_projects);
       })
       .catch(function (error) {

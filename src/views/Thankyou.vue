@@ -146,6 +146,11 @@ export default {
         .catch(function(error) {
           console.error("Error yee : ", error);
         });
+      userinfo_collection.doc(userID)
+      .update({
+        
+        projs_end: firebase.firestore.FieldValue.arrayUnion(projName)
+      })
     }
   }
 };
