@@ -186,10 +186,13 @@
 import { firestore } from "@/firebase";
 import { firestorage } from "@/firebase";
 var project_collection = firebase.firestore().collection("projects");
-
+var userinfo_collection = firebase.firestore().collection("userinfo");
 export default {
   data() {
     return {
+      userinfo:{
+        projs_end: []
+      },
       projInfo: {
         team: "",
         song: "",
@@ -197,7 +200,7 @@ export default {
         level: "",
         blurb: "",
         members: [],
-        projs_end: [],
+
         ongoing: true,
         announcements: [],
       },
@@ -208,7 +211,21 @@ export default {
   },
   created() {
     var projectName = this.$route.query.projName;
-
+    var userName = this.$route.query.userId;
+    userinfo_collection
+    .doc(userName)
+    .get()
+    .then((doc) => {
+      if (doc.exists){
+        let pi = doc.data();
+        this.userinfo = pi;
+        if (this.userinfo.projs_end.includes(projectName)) {
+            this.ongoing = false;
+          } else {
+            this.ongoing = true;
+          }
+      }
+    })
     project_collection
       .doc(projectName)
       .get()
@@ -216,11 +233,7 @@ export default {
         if (doc.exists) {
           let pi = doc.data();
           this.projInfo = pi;
-          if (this.projInfo.projs_end.includes(projectName)) {
-            this.ongoing = false;
-          } else {
-            this.ongoing = true;
-          }
+          
 
           this.announcements = this.projInfo.announcements;
         } else {
